@@ -1,0 +1,211 @@
+[build-system]
+requires = ["hatchling", "hatch-vcs", "hatch-fancy-pypi-readme"]
+build-backend = "hatchling.build"
+
+[project]
+dynamic = ["version"]
+name = "spexread"
+description = "A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT"}
+keywords = ["keyword_1", "keyword_2"]
+authors = [
+    { name = "Antoine Salden", email = "t.p.w.salden@tue.nl" },
+]
+# options under https://pypi.org/classifiers/
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: Implementation :: CPython",
+    "License :: OSI Approved :: MIT License",
+    "Intended Audience :: Science/Research"
+
+]
+dependencies = ["xarray","numpy","pydantic","numpydantic","lxml","xmltodict","pydantic-xml"]
+
+[project.optional-dependencies]
+docs = ["mkdocs-material","mkdocstrings", "mkdocstrings-python", "mkdocs-api-autonav", "mkdocs-section-index", "mkdocs-jupyter", "mkdocs-git-revision-date-localized-plugin","mkdocs-include-markdown-plugin","mkdocstrings-python-xref", "mkdocs-github-admonitions-plugin","black", "pygments"]
+
+[project.urls]
+Documentation = "https://github.com/AntoineTUE/spexread"
+Source = "https://github.com/AntoineTUE/spexread"
+
+
+[tool.hatch.metadata]
+allow-direct-references = true
+
+[tool.hatch.version]
+source = "vcs"
+fallback-version = "0.0.1dev"
+
+[tool.hatch.build.hooks.vcs]
+version-file = "src/spexread/_version.py"
+
+[tool.hatch.build]
+packages = ["src/spexread"]
+
+[tool.hatch.build.targets.sdist]
+exclude = [
+    "/.github",
+]
+
+[tool.mypy]
+files = ["src/spexread", "tests"]
+disallow_untyped_defs = false
+follow_imports = "normal" # "silent" for not following
+ignore_missing_imports = true
+pretty = true
+show_column_numbers = true
+warn_no_return = false
+warn_unused_ignores = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --doctest-glob='*.md'"
+testpaths = [
+    "tests",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["src/spexread"]
+omit = [
+    "_version.py",  # automatically created by hatch-vcs, not in repo
+]
+
+[tool.coverage.paths]
+source = [
+    "src/",
+    "*/site-packages/",
+]
+
+[tool.coverage.report]
+# Regexes for lines to exclude from consideration
+exclude_lines = [
+    # Have to re-enable the standard pragma
+    "pragma: no cover",
+
+    # Don't complain about missing debug-only code:
+    "def __repr__",
+    "if self\\.debug",
+
+    # Don't complain if tests don't hit defensive assertion code:
+    "raise AssertionError",
+    "raise NotImplementedError",
+
+    # Don't complain if non-runnable code isn't run:
+    "if 0:",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.ruff]
+target-version = "py39"
+line-length = 120
+indent-width = 4
+include = [
+    "src/**/*.py",
+    "src/**/*.pyi",
+    "tests/**/*.py",
+    "tests/**/*.pyi"
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F","C4", "SIM", "NPY", "PD","B","UP","D"]
+ignore = ["PD901","F401"]
+unfixable = [
+    "F401",  # Don't touch unused imports
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.isort]
+known-first-party = ["spexread"]
+
+
+[tool.ruff.lint.per-file-ignores]
+# Allow print/pprint
+"examples/*" = ["T201"]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252","D","F401"]
+
+[tool.hatch.metadata.hooks.fancy-pypi-readme]
+content-type = "text/markdown"
+fragments = [
+    { path = "README.md" }
+]
+
+[tool.uv]
+cache-keys = [{ git = true }]
+
+[tool.hatch.envs.default]
+# python = "3.9"
+post-install-commands = ["pre-commit install"]
+dependencies = ["numpy", "pandas", "matplotlib", "ipython","ipykernel","h5netcdf"]
+installer = "uv"
+
+[tool.hatch.envs.hatch-test]
+dependencies = [
+    # required test dependencies
+    "coverage[toml]>=6.2",
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "pytest-vcr",
+    "pytest-sugar",
+    "hypothesis",
+]
+
+[tool.hatch.envs.test.scripts]
+cov = "pytest --cov-report=term-missing --cov-config=pyproject.toml --cov=src/spexread --cov=tests {args}"
+no-cov = "cov --no-cov {args}"
+debug =  "cov --no-cov -s --pdb --pdbcls=IPython.core.debugger:Pdb {args}"
+
+[tool.hatch.envs.docs]
+skip-install = true
+features = ["docs"]
+dependencies = ["mike"]
+
+[tool.hatch.envs.docs.scripts]
+serve = "mkdocs serve -f mkdocs.yml {args}"
+build = "mkdocs build --clean -f mkdocs.yml {args}"
+ci-build = "mike deploy --config-file mkdocs.yml --update-aliases {args}"
+
+# Lint environment
+[tool.hatch.envs.lint]
+template = "lint"  # don't inherit from default!
+dependencies = [
+    "mypy==1.11.1",
+    "ruff==0.11.12",
+]
+
+[tool.hatch.envs.lint.scripts]
+typing = [
+    "echo \"VERSION: `mypy --version`\"",
+    "mypy --install-types --non-interactive {args}"
+]
+style = [
+    "echo \"VERSION: `ruff --version`\"",
+    "ruff check {args:.}",
+    "ruff format --check {args:.}",
+]
+fix = [
+    "ruff format {args:.}",
+    "ruff check --fix {args:.}",
+    "style",  # feedback on what is not fixable
+]
+all = [
+    "style",
+    "typing",
+]
+
+# Test matrix for various Python versions replacing the functionality of tox
+[[tool.hatch.envs.py-test.matrix]]
+template = ["test"]
+python = ["39","310", "311", "312","313"]
