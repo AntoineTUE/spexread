@@ -12,8 +12,8 @@ Older legacy file types can work, but correct (meta)data parsing is not guarante
 * [`spexread.transformation`][spexread.transformation]: Helper functions for performing transformation mappings between different sensor orientations
 """
 
-__all__ = ["read_spe_file", "__version__", "__version_tuple__", "version", "version_tuple", "commit_id"]
+__all__ = ["read_spe_file", "__version__", "__version_tuple__", "version", "version_tuple"]
 
 from spexread.parsing import read_spe_file
 
-from ._version import __version__, __version_tuple__, version, version_tuple, commit_id
+from ._version import __version__, __version_tuple__, version, version_tuple
