@@ -18,7 +18,7 @@ repos:
     args: ['--fix=auto']  # replace 'auto' with 'lf' to enforce Linux/Mac line endings or 'crlf' for Windows
 
 - repo: https://github.com/charliermarsh/ruff-pre-commit
-  rev: 'v0.12.7'  # make sure this is always consistent with hatch configs
+  rev: 'v0.14.2'  # make sure this is always consistent with hatch configs
   hooks:
     - id: ruff
     - id: ruff-format

@@ -81,6 +81,15 @@ def map_calibration_to_current_coordinate_system(info: "SPEType"):
     Note that no guarantee can be made that the calibration in still valid, as this depends also on physical factors.
 
     These transformations should be considered best-effort and nothing more than a convenience for the case that they remain valid.
+
+    Returns:
+        calib_coordinate_name:      The name of the axis that is wavelength calibrated, either "x" or "y"
+        calibration:                The array of calibration values for the corresponding axis
+        calibration_order:          The order of the dimensions of the calibration, when it was calibrated, before subsequent transformations.
+        dimension_order:            The order of the dimensions of the frame after applying tranformation.
+
+    Note: Without any transformation the order of the data stored on disk is ('frame','y','x').
+    For clarity, 'frame' is omitted in transformations, as different orientations don't affect this.
     """
     orient_calib = parse_orientation(
         info.Calibrations.WavelengthCalib.orientation if info.Calibrations.WavelengthCalib is not None else "Normal"
@@ -89,12 +98,14 @@ def map_calibration_to_current_coordinate_system(info: "SPEType"):
 
     orient_current = parse_orientation(info.Calibrations.SensorInformation.orientation)
     default_order = ("x", "y")
-    coordinate_order_calib = apply_transformations(*default_order, *orient_calib)  #
-    calib_coordinate_name = coordinate_order_calib[0]  # Assume calibrated axis is at 0th index
-    coordinate_order_current = apply_transformations(*default_order, *orient_current)
+    calibration_order = apply_transformations(*default_order, *orient_calib)  #
+    calib_coordinate_name = calibration_order[0]  # Assume calibrated axis is at 0th index
+    coordinate_order_current = apply_transformations(*default_order, *orient_current)  # noqa: F841
     transform = transformation_mapping(orient_calib, orient_current)
-    calib = apply_transformations(info.Calibrations.wl, np.array([0, 1]), *transform)
+    calib = apply_transformations(info.Calibrations.wl, np.array([0, 1]), *transform)  # noqa: F841
+    dimension_order = apply_transformations("y", "x", *transform)
     # print(
     #     f"{coordinate_order_calib}, {coordinate_order_current}, {coordinate_order_current.index(calib_coordinate_name)}"
     # )
-    return calib_coordinate_name, calib[coordinate_order_current.index(calib_coordinate_name)]
+    # return calib_coordinate_name, calib[coordinate_order_current.index(calib_coordinate_name)]
+    return calib_coordinate_name, info.Calibrations.wl, calibration_order, dimension_order

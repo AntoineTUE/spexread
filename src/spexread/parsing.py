@@ -12,6 +12,7 @@ Based on the information obtained from the header and (optional) footer, the act
 from pathlib import Path
 import struct
 import numpy as np
+from numpy.polynomial.polynomial import polyval
 import xarray as xr
 from lxml import etree
 from typing import TYPE_CHECKING
@@ -26,7 +27,17 @@ from .transformation import (
     transformation_mapping,
     map_calibration_to_current_coordinate_system,
 )
-from .structdef import SPEInfoHeader, HEADERSIZE
+from .structdef import SPEInfoHeader, HEADERSIZE, WINVIEW_ID, LASTVALUE
+
+
+class SPEValidationError(Exception):
+    """Exception raised when validating SPE files in `strict` mode fails.
+
+    Files that cause this exception to be raised, may not adhere to the SPE v2.x or SPE 3.0 specifition.
+    Or at least be different than what is documented in the SPE 3.0 specification about legacy compatibility.
+
+    Attempting to read these files with `strict` set to `False` may still result in them being read correctly.
+    """
 
 
 def _parse_xml_footer(buff: "BufferedReader", offset: int) -> etree:
@@ -60,10 +71,11 @@ def _parse_ROI(file: Path | str, info_header: SPEType, roi_idx: int) -> np.ndarr
     end = HEADERSIZE + (info_header.FrameInfo.count) * info_header.FrameInfo.stride
     offset = np.arange(start, end, info_header.FrameInfo.stride)
     data = np.zeros(roi.size // dtype.itemsize * info_header.FrameInfo.count, dtype=dtype)
+    element_count = roi.stride // dtype.itemsize
     for frame_idx in range(info_header.FrameInfo.count):
-        data[frame_idx * roi.stride // dtype.itemsize : (frame_idx + 1) * roi.stride // dtype.itemsize] = np.fromfile(
-            file, dtype=dtype, count=roi.stride // dtype.itemsize, offset=offset[frame_idx]
-        )
+        start_index = frame_idx * roi.stride // dtype.itemsize
+        stop_index = (frame_idx + 1) * roi.stride // dtype.itemsize
+        data[start_index:stop_index] = np.fromfile(file, dtype=dtype, count=element_count, offset=offset[frame_idx])
     return data
 
 
@@ -91,8 +103,8 @@ def _parse_tracked_metadata(f: Path | str, info: SPEType) -> dict[str, np.ndarra
             dtype = np.dtype(field_model.type)
             resolution = getattr(field_model, "resolution", 1)
             offsets = np.arange(
-                start=4100 + block_offset + field_offset,
-                stop=4100 + info.FrameInfo.stride * info.FrameInfo.count,
+                start=HEADERSIZE + block_offset + field_offset,
+                stop=HEADERSIZE + info.FrameInfo.stride * info.FrameInfo.count,
                 step=info.FrameInfo.stride,
             )
             b = b""
@@ -127,10 +139,13 @@ def parse_spe_metadata(f: Path | str, strict: bool = False) -> SPEType:
     with f.open("rb") as fo:
         fo.readinto(header)
         if strict:
-            # Validate fields to be always these values for legacy reasons
-            assert header.lnoscan == -1
-            assert header.WinView_id == 19088743
-            assert header.lastvalue == 21845
+            # Validate fields to be always these values for legacy reasons, skip if attempting to parse non-compliant files.
+            for attr, correct in zip(["WinView_id", "lastvalue", "lnoscan"], [WINVIEW_ID, LASTVALUE, -1]):  # noqa: B905
+                actual = getattr(header, attr)
+                if actual != correct:
+                    raise SPEValidationError(
+                        f"Error validating file header for {attr}, expected {correct}, but got {actual}. Try reading this file with `strict` set to `False`."
+                    )
         if header.file_header_ver >= 3:
             metadata = SPEType.from_xml(_parse_xml_footer(fo, header.XMLOffset))
         else:
@@ -156,6 +171,7 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
     )
     calib_order = apply_transformations("x", "y", *orient_calib)  # assume 0th index is calibration axis
     orient_sensor = parse_orientation(info.Calibrations.SensorInformation.orientation)
+    # Compute transformation to map calibration to current orientation
     transform = transformation_mapping(orient_calib, orient_sensor)
     dim_order = apply_transformations("y", "x", *transform)  # Flipped, default order ('frame', 'y','x')
     tracking_data = _parse_tracked_metadata(f, info) if info.FrameInfo.metaformat_index is not None else {}
@@ -171,10 +187,11 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
                         np.arange(roi_map.y, roi_map.y + roi_map.height, roi_map.yBin) + roi_map.yBin // 2,
                         np.arange(roi_map.x, roi_map.x + roi_map.width, roi_map.xBin) + roi_map.xBin // 2,
                     ],
+                    strict=True,
                 )
             )
         else:
-            coord_order = dict(zip(dim_order, [np.arange(roi.height), np.arange(roi.width)]))
+            coord_order = dict(zip(dim_order, [np.arange(roi.height), np.arange(roi.width)], strict=True))
 
         da = xr.DataArray(
             data.reshape(info.FrameInfo.count, roi.height, roi.width),
@@ -188,7 +205,11 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
         )
         da = da.assign_coords(**{k: ("frame", v) for k, v in tracking_data.items()})
         if with_calibration:
-            da = da.assign_coords(wavelength=(calib_order[0], info.Calibrations.wl[getattr(da, calib_order[0])]))
+            try:
+                calib_coords = info.Calibrations.wl[getattr(da, calib_order[0])]
+            except IndexError:
+                calib_coords = polyval(getattr(da, calib_order[0]).data, info.Calibrations.WavelengthCalib.coefficients)
+            da = da.assign_coords(wavelength=(calib_order[0], calib_coords))
         das.append(da)
     return das
 
@@ -201,16 +222,19 @@ def read_spe_file(file: Path | str, as_dataset=True, strict: bool = True) -> xr.
     file = Path(file)
     info = parse_spe_metadata(file, strict=strict)
 
-    data = parse_spe_data(file, info, with_calibration=not as_dataset)
+    data_list = parse_spe_data(file, info, with_calibration=not as_dataset)
     if not as_dataset:
-        return data
-    data = xr.combine_by_coords(data)
-    calib_dim_name, calib_coords = map_calibration_to_current_coordinate_system(info)
-    calib_coords = (
-        calib_coords
-        if calib_coords.shape == getattr(data, calib_dim_name, data.x).shape
-        else calib_coords[getattr(data, calib_dim_name, data.x).data]
-    )
+        return data_list
+    data = xr.combine_by_coords(data_list, join="outer")
+    calib_dim_name, calib_coords, *_ = map_calibration_to_current_coordinate_system(info)
+    try:
+        # coerce to numpy array to avoid ambiguity for xarray
+        _calibrated_pixels = getattr(data, calib_dim_name, data.x).data
+        calib_coords = calib_coords[_calibrated_pixels]  # slice calibration array with current pixels
+    except IndexError:
+        # patch for stitched spectra that extend beyond sensor dimension
+        # TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration
+        calib_coords = polyval(getattr(data, calib_dim_name).data, info.Calibrations.WavelengthCalib.coefficients)
     data = data.assign_coords(wavelength=(calib_dim_name, calib_coords))
     data.attrs = info.model_dump()
     return data

@@ -42,6 +42,10 @@ u64 = c_uint64
 
 HEADERSIZE = 4100
 """Header size in bytes of SPE files, going all the way back to version 1."""
+WINVIEW_ID = 19088743
+"""Fixed value for legacy reasons from WinSpec software, expected value is fixed, equal to 0x1234567"""
+LASTVALUE = 21845
+"""Last value of the header, fixed at 21845 (or 0x5555) for legacy reasons."""
 DATAMAX = 10
 TIMEMAX = 7
 COMMENTMAX = 80
@@ -119,7 +123,7 @@ class CalibrationStruct(SPEStructure):
         ("factor", d64),
         ("current_unit", s8),
         ("reserved1", s8),
-        ("string", s8 * 40),
+        ("string", c_char * 40),
         ("reserved2", s8 * 40),
         ("calib_valid", s8),
         ("input_unit", s8),
@@ -132,7 +136,7 @@ class CalibrationStruct(SPEStructure):
         ("laser_position", d64),
         ("reserved3", s8),
         ("new_calib_flag", u8),
-        ("calib_label", s8 * 81),
+        ("calib_label", c_char * 81),
         ("expansion", s8 * 87),
     ]
 

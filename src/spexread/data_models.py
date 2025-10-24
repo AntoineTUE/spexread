@@ -12,10 +12,12 @@ In the modelling of the hierarchical structure, the XML structure and SPE v3.0 F
 from pydantic import BaseModel, Field, field_validator, ConfigDict, StringConstraints
 from typing import ClassVar, Optional, Any, Annotated
 import numpy as np
+from numpy.polynomial.polynomial import polyval
 from datetime import datetime, timezone
 from numpydantic import NDArray, Shape
 
-import spexread.structdef as structdef
+# import spexread.structdef as structdef
+from spexread.structdef import EnumDataType, EnumOrientation, SPEInfoHeader
 
 NS = "http://www.princetoninstruments.com/spe/2009"
 """The default SPE file namespace"""
@@ -82,14 +84,16 @@ class RegionType(XMLBaseModel):
         return RegionType(**node.attrib, sensor_mapping=sensor_mapping)
 
     @classmethod
-    def from_struct(cls, cstruct, index) -> "RegionType":
+    def from_struct(cls, cstruct: SPEInfoHeader, index: int) -> "RegionType":
         """Create a `RegionType` model from a SPE C Struct."""
-        dtype_name = structdef.EnumDataType(cstruct.datatype).name
+        dtype_name = EnumDataType(cstruct.datatype).name
         bitlen = getattr(np, dtype_name)().itemsize
-        width = (cstruct.ROIinfblk[index].endx - cstruct.ROIinfblk[index].startx + 1) // cstruct.ROIinfblk[index].groupx
-        height = (cstruct.ROIinfblk[index].endy - cstruct.ROIinfblk[index].starty + 1) // cstruct.ROIinfblk[
-            index
-        ].groupy
+        width = np.abs(
+            (cstruct.ROIinfblk[index].endx - cstruct.ROIinfblk[index].startx + 1) // cstruct.ROIinfblk[index].groupx
+        )
+        height = np.abs(
+            (cstruct.ROIinfblk[index].endy - cstruct.ROIinfblk[index].starty + 1) // cstruct.ROIinfblk[index].groupy
+        )
         size = width * height * bitlen
         return RegionType(
             width=width, height=height, size=size, stride=size, sensor_mapping=SensorMapType.from_struct(cstruct, index)
@@ -105,11 +109,11 @@ class FrameType(XMLBaseModel):
     size: int
     stride: int
     calibrations: int = Field(default=0)
-    metaformat_index: Optional[int] = Field(default=None, alias="metaFormat")
+    metaformat_index: int | None = Field(default=None, alias="metaFormat")
     ROIs: list[RegionType] = Field(default=[])
 
     @field_validator("type")
-    def validate_type(cls, value) -> str:
+    def validate_type(cls, value: str) -> str:
         """Validate the `type` field; only `Frame` is allowed."""
         if "frame" not in value.lower():
             raise ValueError(f"{value} is not `Frame`")
@@ -136,9 +140,9 @@ class FrameType(XMLBaseModel):
         )
 
     @classmethod
-    def from_struct(cls, cstruct):
+    def from_struct(cls, cstruct: SPEInfoHeader):
         """Create a `FrameType` model from a C Struct."""
-        dtype_name = structdef.EnumDataType(cstruct.datatype).name
+        dtype_name = EnumDataType(cstruct.datatype).name
         bitlen = getattr(np, dtype_name)().itemsize
         size = cstruct.xdim * cstruct.ydim * bitlen
         pixel_fmt = f"Monochrome{dtype_name.capitalize()}"
@@ -210,12 +214,12 @@ class MetaBlockType(XMLBaseModel):
 
     field_order: ClassVar = ("exposure_start", "exposure_end", "frame_track", "gate_width", "gate_delay", "modulation")
     id: int = Field(default=0, ge=0)
-    exposure_start: Optional[TimeTrackType] = Field(default=None)
-    exposure_end: Optional[TimeTrackType] = Field(default=None)
-    frame_track: Optional[TrackType] = Field(default=None)
-    gate_width: Optional[GateTrackType] = Field(default=None)
-    gate_delay: Optional[GateTrackType] = Field(default=None)
-    modulation: Optional[ModulationTrackType] = Field(default=None)
+    exposure_start: TimeTrackType | None = Field(default=None)
+    exposure_end: TimeTrackType | None = Field(default=None)
+    frame_track: TrackType | None = Field(default=None)
+    gate_width: GateTrackType | None = Field(default=None)
+    gate_delay: GateTrackType | None = Field(default=None)
+    modulation: ModulationTrackType | None = Field(default=None)
 
     @classmethod
     def from_xml(cls, element, id) -> "MetaBlockType":
@@ -261,7 +265,7 @@ class MetaFormatType(XMLBaseModel):
         )
 
     @classmethod
-    def from_struct(cls, cstruct) -> "MetaFormatType":
+    def from_struct(cls, cstruct: SPEInfoHeader) -> "MetaFormatType":
         """Create a `MetaFormatType` model from a C Struct."""
         return MetaFormatType()  # No tracking metadata is stored in header or binary block for legacy files
 
@@ -275,9 +279,10 @@ class SensorType(XMLBaseModel):
     height: int
 
     @classmethod
-    def from_struct(cls, cstruct) -> "SensorType":
+    def from_struct(cls, cstruct: SPEInfoHeader) -> "SensorType":
         """Create a `SensorType` model from a C Struct."""
-        orient = structdef.EnumOrientation(cstruct.geometric).name.replace("|", ",")
+        name: str = EnumOrientation(cstruct.geometric).name
+        orient = name.replace("|", ",")
         return SensorType(id=2, width=cstruct.xDimDet, height=cstruct.yDimDet, orientation=orient)
 
 
@@ -300,16 +305,20 @@ class SensorMapType(XMLBaseModel):
     yBin: int = Field(alias="yBinning")
 
     @classmethod
-    def from_struct(cls, cstruct, index) -> "SensorMapType":
+    def from_struct(cls, cstruct: SPEInfoHeader, index: int) -> "SensorMapType":
         """Create a `SensorMapType` model from a C Struct."""
         roi = cstruct.ROIinfblk[index]
-
+        # Correct x and y to zero-indexed, and account for inverted order of start vs end.
+        x = roi.startx - 1 if roi.startx < roi.endx else roi.endx - 1
+        y = roi.starty - 1 if roi.starty < roi.endy else roi.endy - 1
+        width = np.abs(roi.endx - roi.startx) + 1
+        height = np.abs(roi.endy - roi.starty) + 1
         return SensorMapType(
             id=index + 3,
-            x=roi.startx - 1,
-            y=roi.starty - 1,
-            height=roi.endy - roi.starty + 1,
-            width=roi.endx - roi.startx + 1,
+            x=x,
+            y=y,
+            height=height,
+            width=width,
             xBin=roi.groupx,
             yBin=roi.groupy,
         )
@@ -322,6 +331,7 @@ class WavelengthCalibType(XMLBaseModel):
     date: datetime = Field(default_factory=lambda: datetime.fromtimestamp(0))
     orientation: str
     wavelength: NDArray[Shape["* x"], float] = Field(repr=False)  # noqa: F722
+    coefficients: NDArray[Shape["* x"], float] = Field(default=np.array([1, 0, 0, 0, 0], dtype=float), repr=False)  # noqa: F722
 
     @field_validator("wavelength", mode="before")
     def parse_wavelength(cls, value: Any) -> NDArray:
@@ -345,19 +355,23 @@ class WavelengthCalibType(XMLBaseModel):
         return WavelengthCalibType(**node.attrib, wavelength=wls)
 
     @classmethod
-    def from_struct(cls, cstruct) -> "WavelengthCalibType":
+    def from_struct(cls, cstruct: SPEInfoHeader) -> "WavelengthCalibType":
         """Create a `WavelengthCalibType` model from a C Struct."""
         if cstruct.xcalibration.calib_valid == 1:
-            calib_poly = cstruct.xcalibration.polynom_coeff
+            calib_poly = np.array(cstruct.xcalibration.polynom_coeff, dtype=np.double)
             # pix_num = cstruct.xdim
             pix_num = cstruct.xDimDet
         else:
-            calib_poly = cstruct.ycalibration.polynom_coeff
+            calib_poly = np.array(cstruct.ycalibration.polynom_coeff, dtype=np.double)
             # pix_num = cstruct.ydim
             pix_num = cstruct.yDimDet
-        return WavelengthCalibType(
-            id=1, orientation="Normal", wavelength=np.polyval(np.flip(calib_poly), np.arange(pix_num))
-        )  # TODO: support y calibration, or other orientation
+        wavelength = polyval(np.arange(pix_num), calib_poly)
+
+        # TODO: support y calibration, or other orientation
+        # TODO: Implement support for glued spectra
+        # TODO: expose the calibration polynomial. Note that SPE stores an empirical one, SPE3 one based on spectrometer geometry etc.
+        # TODO: Find a way to support both cass where ROI is smaller than sensor and must be sliced, and when spectrum is stiched and thus larger than detector.
+        return WavelengthCalibType(id=1, orientation="Normal", wavelength=wavelength, coefficients=calib_poly)
 
 
 class CalibrationsType(XMLBaseModel):
@@ -369,7 +383,7 @@ class CalibrationsType(XMLBaseModel):
 
     """
 
-    WavelengthCalib: Optional[WavelengthCalibType] = Field(alias="WavelengthMapping")
+    WavelengthCalib: WavelengthCalibType | None = Field(alias="WavelengthMapping")
     SensorInformation: SensorType
     SensorMapping: list[SensorMapType]
 
@@ -397,7 +411,7 @@ class CalibrationsType(XMLBaseModel):
         return CalibrationsType(WavelengthMapping=wl_calib, SensorInformation=sensor_info, SensorMapping=sensor_mapping)
 
     @classmethod
-    def from_struct(cls, cstruct) -> "CalibrationsType":
+    def from_struct(cls, cstruct: SPEInfoHeader) -> "CalibrationsType":
         """Create a `CalibrationsType` model from a C Struct."""
         return CalibrationsType(
             WavelengthMapping=WavelengthCalibType.from_struct(cstruct),
@@ -421,7 +435,7 @@ class GeneralInfoType(XMLBaseModel):
         return GeneralInfoType(**node.find("FileInformation", node.nsmap).attrib)
 
     @classmethod
-    def from_struct(cls, cstruct):
+    def from_struct(cls, cstruct: SPEInfoHeader):
         """Create a `GeneralInfoType` model from a C Struct."""
         fmt_time = "%d%b%Y %H%M%S"
         dt_local = datetime.strptime(f"{cstruct.date.decode()} {cstruct.ExperimentTimeLocal.decode()}", fmt_time)
@@ -456,8 +470,8 @@ class SPEType(XMLBaseModel):
 
     version: float
     FrameInfo: FrameType
-    MetaFormat: Optional[MetaFormatType] = Field(default=MetaFormatType())
-    Calibrations: Optional[CalibrationsType] = Field(default=None)
+    MetaFormat: MetaFormatType | None = Field(default=MetaFormatType())
+    Calibrations: CalibrationsType | None = Field(default=None)
     GeneralInfo: GeneralInfoType = Field(default=GeneralInfoType())
 
     @classmethod
@@ -475,7 +489,7 @@ class SPEType(XMLBaseModel):
         return SPEType(**base.attrib, FrameInfo=frame_info, **{k: v for k, v in kwargs.items() if v is not None})
 
     @classmethod
-    def from_struct(cls, cstruct) -> "SPEType":
+    def from_struct(cls, cstruct: SPEInfoHeader) -> "SPEType":
         """Create a `SPEType` model from a C Struct."""
         return SPEType(
             version=cstruct.file_header_ver,
