@@ -7,7 +7,7 @@ dynamic = ["version"]
 name = "spexread"
 description = "A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField"
 readme = "README.md"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 license = { text = "MIT"}
 keywords = ["keyword_1", "keyword_2"]
 authors = [
@@ -21,12 +21,13 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Programming Language :: Python :: Implementation :: CPython",
     "License :: OSI Approved :: MIT License",
     "Intended Audience :: Science/Research"
 
 ]
-dependencies = ["xarray","numpy","pydantic","numpydantic","lxml","xmltodict","pydantic-xml"]
+dependencies = ["xarray>=2024.09.0","numpy>=2.1","pydantic>=2.7","numpydantic>=1.6","lxml>=4.0"]
 
 [project.optional-dependencies]
 docs = ["mkdocs-material","mkdocstrings", "mkdocstrings-python", "mkdocs-api-autonav", "mkdocs-section-index", "mkdocs-jupyter", "mkdocs-git-revision-date-localized-plugin","mkdocs-include-markdown-plugin","mkdocstrings-python-xref", "mkdocs-github-admonitions-plugin","black", "pygments"]
@@ -105,7 +106,7 @@ exclude_lines = [
 ]
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py310"
 line-length = 120
 indent-width = 4
 include = [
@@ -117,10 +118,9 @@ include = [
 
 [tool.ruff.lint]
 select = ["E4", "E7", "E9", "F","C4", "SIM", "NPY", "PD","B","UP","D"]
-ignore = ["PD901","F401"]
-unfixable = [
-    "F401",  # Don't touch unused imports
-]
+ignore = ["F401"]
+# Don't touch unused
+unfixable = ["F401"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "pep257"
@@ -145,9 +145,9 @@ fragments = [
 cache-keys = [{ git = true }]
 
 [tool.hatch.envs.default]
-# python = "3.9"
+python = "3.13"
 post-install-commands = ["pre-commit install"]
-dependencies = ["numpy", "pandas", "matplotlib", "ipython","ipykernel","h5netcdf"]
+dependencies = ["numpy>=2.1", "pandas>=2.2", "matplotlib>=3.9", "ipython>=8.24","ipykernel>=6.29","h5netcdf>=1.4"]
 installer = "uv"
 
 [tool.hatch.envs.hatch-test]
@@ -173,7 +173,7 @@ features = ["docs"]
 dependencies = ["mike"]
 
 [tool.hatch.envs.docs.scripts]
-serve = "mkdocs serve -f mkdocs.yml {args}"
+serve = "mkdocs serve -f mkdocs.yml --livereload {args}"
 build = "mkdocs build --clean -f mkdocs.yml {args}"
 ci-build = "mike deploy --config-file mkdocs.yml --update-aliases {args}"
 
@@ -181,31 +181,13 @@ ci-build = "mike deploy --config-file mkdocs.yml --update-aliases {args}"
 [tool.hatch.envs.lint]
 template = "lint"  # don't inherit from default!
 dependencies = [
-    "mypy==1.11.1",
-    "ruff==0.11.12",
+    "mypy==1.18.2",
+    "ruff==0.14.2",
 ]
 
 [tool.hatch.envs.lint.scripts]
-typing = [
-    "echo \"VERSION: `mypy --version`\"",
-    "mypy --install-types --non-interactive {args}"
-]
-style = [
-    "echo \"VERSION: `ruff --version`\"",
-    "ruff check {args:.}",
-    "ruff format --check {args:.}",
-]
-fix = [
-    "ruff format {args:.}",
-    "ruff check --fix {args:.}",
-    "style",  # feedback on what is not fixable
-]
-all = [
-    "style",
-    "typing",
-]
+typing = ["mypy --install-types --non-interactive {args}"]
 
-# Test matrix for various Python versions replacing the functionality of tox
 [[tool.hatch.envs.py-test.matrix]]
 template = ["test"]
-python = ["39","310", "311", "312","313"]
+python = ["310", "311", "312","313","314"]
