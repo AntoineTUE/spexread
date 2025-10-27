@@ -30,7 +30,20 @@ classifiers = [
 dependencies = ["xarray>=2024.09.0","numpy>=2.1","pydantic>=2.7","numpydantic>=1.6","lxml>=4.0"]
 
 [project.optional-dependencies]
-docs = ["mkdocs-material","mkdocstrings", "mkdocstrings-python", "mkdocs-api-autonav", "mkdocs-section-index", "mkdocs-jupyter", "mkdocs-git-revision-date-localized-plugin","mkdocs-include-markdown-plugin","mkdocstrings-python-xref", "mkdocs-github-admonitions-plugin","black", "pygments"]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings",
+    "mkdocstrings-python",
+    "mkdocs-api-autonav",
+    "mkdocs-section-index",
+    "mkdocs-jupyter",
+    "mkdocs-git-revision-date-localized-plugin",
+    "mkdocs-include-markdown-plugin",
+    "mkdocstrings-python-xref",
+    "mkdocs-github-admonitions-plugin",
+    "ruff",
+    "pygments"
+]
 
 [project.urls]
 Documentation = "https://github.com/AntoineTUE/spexread"

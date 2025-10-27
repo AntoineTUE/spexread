@@ -1,5 +1,5 @@
 # Project information
-site_name: SPEXRead
+site_name: spexread
 site_description: 'A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField'
 site_author: Antoine Salden
 site_url: https://github.com/AntoineTUE/spexread
@@ -17,7 +17,7 @@ theme:
   favicon: assets/logo.svg
   icon:
     repo: fontawesome/brands/github-alt
-    logo: fontawesome/solid/egg
+    logo: material/material-camera-iris
   font:
     text: Roboto
     code: Roboto Mono
@@ -27,14 +27,14 @@ theme:
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/lightbulb-outline # material/weather-night
+        icon: material/lightbulb-outline
         name: Switch to light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: indigo
       accent: indigo
       toggle:
-        icon: material/lightbulb # material/weather-sunny
+        icon: material/lightbulb
         name: Switch to dark mode
   features:
     - navigation.sections
@@ -54,6 +54,7 @@ plugins:
   gh-admonitions: {}
   mike:
     alias_type: copy
+    canonical_version: "latest"
   git-revision-date-localized:
     exclude:
       - reference/*
@@ -62,15 +63,12 @@ plugins:
   api-autonav:
     modules: ['src/spexread']
     exclude_private: true
+    nav_section_title: API Reference
     module_options:
-      spexread:
-        members: []
-      spexread.data_models:
-        inherited_members: false
       spexread.structdef:
         members: [EnumDataType,EnumOrientation,SPEStructure, ROIInfo,CalibrationStruct,SPEInfoHeader]
-        show_bases: False
-
+        summary: false
+        show_bases: false
   section-index: {}
   mkdocstrings:
     default_handler: python_xref
@@ -81,6 +79,7 @@ plugins:
         options:
           members_order: source
           relative_crossrefs: true
+          signature_crossrefs: true
           docstring_style: google
           docstring_options:
             ignore_init_summary: yes
@@ -88,20 +87,21 @@ plugins:
             - "!^__"
           merge_init_into_class: yes
           show_submodules: no
-          show_root_heading: false
+          show_root_heading: true
           show_root_full_path: true
           show_root_members_full_path: false
           show_if_no_docstring: true
           show_docstring_attributes: true
           show_docstring_functions: true
           annotations_path: brief
-          separate_signature: false
+          separate_signature: true
           line_length: 120
           show_signature_annotations: true
           show_bases: true
           show_symbol_type_heading: true
           show_symbol_type_toc: true
           show_labels: false
+          summary: true
           extra:
             show_docstrings_modules: true
   mkdocs-jupyter:
@@ -164,4 +164,5 @@ extra_javascript:
 
 nav:
   - Home: index.md
+  - API Reference
   - License: license.md

@@ -10,7 +10,7 @@
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 
-A package for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField respectively.
+A package for reading Princeton Instruments SPE files captured by WinSpec (version 2.x) or LightField(version 3.0).
 
 It relies on [`xarray`](https://docs.xarray.dev) to handle the many different possible image shapes, ROIs, etc. that can be stored in an SPE file and reads them into a single `xarray.Dataset`, or a list of `xarray.DataArrays`.
 
@@ -20,21 +20,17 @@ This has a number of key benefits:
 
 - [x] Data is described and indexed as a function of dimensions or coordinates.
 
-- [x] Access per-frame tracking information such as `exposure_time` or `gate_width` trivially (when stored, SPE v3.0 only) as coordinates of your data, alongside the core dimension `x`,`y` and `frame`. A kinetic series with changing gate time (and gate-tracking enabled) and can be plotted as:
-      * Total signal per frame: `data['ROI 0'].mean(['x','y']).plot(x='gate_width')`
-      * Binned over `y` dimension: `data['ROI 0'].groupby('x').sum('y').plot(x='gate_width',y='wavelength')`
+- [x] Access per-frame tracking information such as `exposure_time` or `gate_width` trivially (when stored, SPE v3.0 only) as coordinates of your data, alongside the core dimension `x`,`y` and `frame`.
 
 - [x] The `xarray.Dataset` supports multiple regions of interest (ROI's) that can be accessed like a python `dict`.
-    * You can handle files in the same way, regardless of amount of ROI's.
+  - You can handle files in the same way, regardless of amount of ROI's.
 
 - [x] Metadata remains closely associated with the data and can be easily accessed.
-
 
 > [!IMPORTANT]
 > `spexread` is functional, but some features and metadata that you use may be missing.
 > Please file an issue and provide a sample file to add support for them.
 > Found a bug? Please raise an issue as well!
-
 
 ## Installing
 
@@ -48,6 +44,12 @@ pip install git+https://github.com/AntoineTUE/spexread
 
 ## Example usage
 
+The example below demonstrates how to plot a kinetic series.
+
+In LightField it is possible to acquire a kinetic series with varying gate width and gate delay, which can be stored to the file.
+
+You can change the `frame` coordinate with e.g. `gate_width` in this example, to plot as a function of this coordinate.
+
 ```python
 from spexread import read_spe_file
 from spexread.data_models import SPEType
@@ -58,11 +60,12 @@ import matplotlib.pyplot as plt
 data = read_spe_file(Path("./my_data.spe"))
 print(data.coords._names) # lists available coordinate names
 
-# plot spectra and trends over time
+# plot spectra
 plt.figure()
 for name,roi in data.items():
     roi.mean(['frame','y']).plot(x='wavelength', label=name)
 
+# Plot trends over time. You can replace `frame` with e.g. `gate_width` as well.
 plt.figure()
 for name,roi in data.items():
     roi.mean(['y','x']).plot(x='frame',label=name)
