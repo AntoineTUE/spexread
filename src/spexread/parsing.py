@@ -15,10 +15,8 @@ import numpy as np
 from numpy.polynomial.polynomial import polyval
 import xarray as xr
 from lxml import etree
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from io import BufferedReader
+from typing import Union, BinaryIO, TYPE_CHECKING
+from io import BufferedReader
 
 from .data_models import SPEType
 from .transformation import (
@@ -28,6 +26,9 @@ from .transformation import (
     map_calibration_to_current_coordinate_system,
 )
 from .structdef import SPEInfoHeader, HEADERSIZE, WINVIEW_ID, LASTVALUE
+
+FilePathOrBinaryBuffer = str | Path | BinaryIO
+"""Type definition for functions that can accept either a file path, or a file handle (openend in binary mode)."""
 
 
 class SPEValidationError(Exception):
@@ -53,12 +54,14 @@ def _parse_xml_footer(buff: "BufferedReader", offset: int) -> etree:
     return etree.fromstring(buff.readline())
 
 
-def _parse_ROI(file: Path | str, info_header: SPEType, roi_idx: int) -> np.ndarray:
+def _parse_ROI(file: FilePathOrBinaryBuffer, info_header: SPEType, roi_idx: int) -> np.ndarray:
     """Retrieve all frames recorded with the same Region Of Interest (ROI) on the camera sensor.
 
     Uses a `SPEType` model containing metadata extracted from the file header and (optional) footer to find chunks of data in the file.
 
     `SPE` files store frames as a contiguous block of data, where each frame consists of one or more ROI data block, followed by an optional per-frame tracking data block.
+
+    To parse this metadata see [_parse_tracked_metadata][..].
 
     Args:
         file (Path|str):        A path to a file
@@ -79,17 +82,21 @@ def _parse_ROI(file: Path | str, info_header: SPEType, roi_idx: int) -> np.ndarr
     return data
 
 
-def _parse_tracked_metadata(f: Path | str, info: SPEType) -> dict[str, np.ndarray]:
+def _parse_tracked_metadata(file_path: Path | str, info: SPEType) -> dict[str, np.ndarray]:
     """Extract all available per-frame tracking metadata.
 
     This metadata is stored at the end of each frame datablock in an SPE file and varies in length depending on the enabled tracking information in LightField.
 
-    Which properties are tracked (and their datatype/bitlength) are extracted from the first `MetaBlock` metadata element.
+    Which properties are tracked (and their datatype/bitlength) are extracted from the first [`MetaBlock`][(p).data_models.MetaBlockType] metadata element.
+
+    Note: Not supported by SPE v2.x files
+        This only works for SPE v3.0 files, legacy files don't store this information.
 
     Args:
         f (Path|str)            : A file path
         info (SPEType)          : A metadata model containing file metadata, backed by `pydantic`
     """
+    file_path = Path(file_path) if isinstance(file_path, str) else file_path
     block_offset = sum([r.stride for r in info.FrameInfo.ROIs])
     tracked_fields = sorted(
         set(info.MetaFormat.MetaBlock[0].field_order) & info.MetaFormat.MetaBlock[0].model_fields_set,
@@ -97,7 +104,7 @@ def _parse_tracked_metadata(f: Path | str, info: SPEType) -> dict[str, np.ndarra
     )
     field_offset = 0
     tracked = {}
-    with f.open("rb") as fo:
+    with file_path.open("rb") as fo:
         for field in tracked_fields:
             field_model = getattr(info.MetaFormat.MetaBlock[0], field)
             dtype = np.dtype(field_model.type)
@@ -106,6 +113,7 @@ def _parse_tracked_metadata(f: Path | str, info: SPEType) -> dict[str, np.ndarra
                 start=HEADERSIZE + block_offset + field_offset,
                 stop=HEADERSIZE + info.FrameInfo.stride * info.FrameInfo.count,
                 step=info.FrameInfo.stride,
+                dtype=int,
             )
             b = b""
             for offset in offsets:
@@ -114,6 +122,39 @@ def _parse_tracked_metadata(f: Path | str, info: SPEType) -> dict[str, np.ndarra
             tracked[field] = np.frombuffer(b, dtype=dtype) / resolution
             field_offset += dtype.itemsize
     return tracked
+
+
+def _spe_metadata_from_buffer(buff: BinaryIO, strict: bool = False) -> SPEType:
+    """Retrieve header and/or footer metadata from an opened file handle.
+
+    Low-level method for [parse_spe_metadata][..] for already opened file objects.
+
+    When using `strict=True`, some fields from the binary header are checked to have certain values.
+    This serves as an early-warning for files that may be corrupt, or maybe not supported.
+
+    Args:
+        buff (BinaryIO):    A file-handle or buffer opened in binary mode.
+        strict (bool):      A flag to force validation of the file by checking some fields in the binary header.
+
+    Returns:
+        SPEType:            A hierarchical model of the metadata.
+
+    """
+    header = SPEInfoHeader()
+    buff.readinto(header)
+    if strict:
+        for attr, correct in zip(["WinView_id", "lastvalue", "lnoscan"], [WINVIEW_ID, LASTVALUE, -1]):  # noqa: B905
+            actual = getattr(header, attr)
+            if actual != correct:
+                raise SPEValidationError(
+                    f"Error validating file header for {attr}, expected {correct}, but got {actual}. Try reading this file with `strict` set to `False`."
+                )
+    metadata = (
+        SPEType.from_xml(_parse_xml_footer(buff, header.XMLOffset))
+        if header.file_header_ver >= 3
+        else SPEType.from_struct(header)
+    )
+    return metadata
 
 
 def parse_spe_metadata(f: Path | str, strict: bool = False) -> SPEType:
@@ -133,23 +174,13 @@ def parse_spe_metadata(f: Path | str, strict: bool = False) -> SPEType:
 
     Returns:
         SPEType                     : A `pydantic` model of metadata contained in the header and footer of the file.
+
+    Note:
+        This is a convencience function to read from a file, all actual reading happens by the low-level [_spe_metadata_from_buffer][..] function from an opened file object.
     """
     f = Path(f)
-    header = SPEInfoHeader()
     with f.open("rb") as fo:
-        fo.readinto(header)
-        if strict:
-            # Validate fields to be always these values for legacy reasons, skip if attempting to parse non-compliant files.
-            for attr, correct in zip(["WinView_id", "lastvalue", "lnoscan"], [WINVIEW_ID, LASTVALUE, -1]):  # noqa: B905
-                actual = getattr(header, attr)
-                if actual != correct:
-                    raise SPEValidationError(
-                        f"Error validating file header for {attr}, expected {correct}, but got {actual}. Try reading this file with `strict` set to `False`."
-                    )
-        if header.file_header_ver >= 3:
-            metadata = SPEType.from_xml(_parse_xml_footer(fo, header.XMLOffset))
-        else:
-            metadata = SPEType.from_struct(header)
+        metadata = _spe_metadata_from_buffer(fo, strict=strict)
     return metadata
 
 
@@ -164,7 +195,7 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
 
     In doing so, we attempt to account for differences in binning and a potential change of orientation of the sensor w.r.t. when the calibration was performed.
     """
-    das = []
+    data_arrays = []
 
     orient_calib = parse_orientation(
         info.Calibrations.WavelengthCalib.orientation if info.Calibrations.WavelengthCalib is not None else "Normal"
@@ -193,7 +224,7 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
         else:
             coord_order = dict(zip(dim_order, [np.arange(roi.height), np.arange(roi.width)], strict=True))
 
-        da = xr.DataArray(
+        roi_array = xr.DataArray(
             data.reshape(info.FrameInfo.count, roi.height, roi.width),
             dims=("frame", *dim_order),
             coords={
@@ -203,21 +234,28 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
             attrs=info.FrameInfo.ROIs[roi_idx].model_dump(),
             name=f"ROI {roi_idx}",
         )
-        da = da.assign_coords(**{k: ("frame", v) for k, v in tracking_data.items()})
+        roi_array = roi_array.assign_coords(**{k: ("frame", v) for k, v in tracking_data.items()})
         if with_calibration:
             try:
-                calib_coords = info.Calibrations.wl[getattr(da, calib_order[0])]
+                calib_coords = info.Calibrations.wl[getattr(roi_array, calib_order[0])]
             except IndexError:
-                calib_coords = polyval(getattr(da, calib_order[0]).data, info.Calibrations.WavelengthCalib.coefficients)
-            da = da.assign_coords(wavelength=(calib_order[0], calib_coords))
-        das.append(da)
-    return das
+                calib_coords = polyval(
+                    getattr(roi_array, calib_order[0]).data, info.Calibrations.WavelengthCalib.coefficients
+                )
+            roi_array = roi_array.assign_coords(wavelength=(calib_order[0], calib_coords))
+        data_arrays.append(roi_array)
+    return data_arrays
 
 
-def read_spe_file(file: Path | str, as_dataset=True, strict: bool = True) -> xr.Dataset | list[xr.DataArray]:
-    """Read an SPE file including metadata.
+def read_spe_file(file: Path | str, as_dataset=True, strict: bool = False) -> xr.Dataset | list[xr.DataArray]:
+    """Read an SPE file including metadata from a file path.
 
-    Refer to the docs for [`parse_spe_metadata`][spexread.parsing.parse_spe_metadata] and [`parse_spe_data`][spexread.parsing.parse_spe_data] for more information.
+    Args:
+        file (Path|str):        A file path
+        as_dataset (bool):      Flag to return either an `xarray.Dataset` (True) or a list of `xarray.DataArray` (False). Default: `True`
+        strict (bool):          Flag to perform validation check on the file using the binary metadata header, potentially detecting invalid/unsupported files. Default: `False`
+
+    For more info, refer to the docs for [`parse_spe_metadata`][(p).parsing.parse_spe_metadata] and [`parse_spe_data`][(p).parsing.parse_spe_data].
     """
     file = Path(file)
     info = parse_spe_metadata(file, strict=strict)

@@ -1,7 +1,8 @@
 """Simple transformations of data for rotation and flipping operations."""
 
 import numpy as np
-from typing import Any, TYPE_CHECKING
+from typing import Any, Literal, TYPE_CHECKING
+from numpy.typing import ArrayLike
 
 if TYPE_CHECKING:
     from .data_models import SPEType
@@ -66,12 +67,14 @@ def transformation_mapping(
     return (flip_h, flip_v, rotate)
 
 
-def parse_orientation(orientation: str):
+def parse_orientation(orientation: str) -> tuple[bool, bool, bool]:
     """Parse a string with orientation information, returning a tuple of atomic transformation operations."""
     return ("Horiz" in orientation, "Vert" in orientation, "Rot" in orientation)
 
 
-def map_calibration_to_current_coordinate_system(info: "SPEType"):
+def map_calibration_to_current_coordinate_system(
+    info: "SPEType",
+) -> tuple[Literal["x"] | Literal["y"], ArrayLike, tuple[str, str], tuple[str, str]]:
     """Compute the mapping of a wavelength calibration to the current sensor orientation.
 
     Wavelength calibrations are stored in the SPE file, along with the orientation that was used when it was taken.
@@ -82,14 +85,15 @@ def map_calibration_to_current_coordinate_system(info: "SPEType"):
 
     These transformations should be considered best-effort and nothing more than a convenience for the case that they remain valid.
 
+    Note:
+        Without any transformation the order of the data stored on disk is (`frame`,`y`,`x`).
+        For clarity, `frame` is omitted in transformations, as different orientations don't affect this.
+
     Returns:
         calib_coordinate_name:      The name of the axis that is wavelength calibrated, either "x" or "y"
         calibration:                The array of calibration values for the corresponding axis
         calibration_order:          The order of the dimensions of the calibration, when it was calibrated, before subsequent transformations.
         dimension_order:            The order of the dimensions of the frame after applying tranformation.
-
-    Note: Without any transformation the order of the data stored on disk is ('frame','y','x').
-    For clarity, 'frame' is omitted in transformations, as different orientations don't affect this.
     """
     orient_calib = parse_orientation(
         info.Calibrations.WavelengthCalib.orientation if info.Calibrations.WavelengthCalib is not None else "Normal"

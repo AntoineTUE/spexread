@@ -1,7 +1,8 @@
 import pytest
 from hypothesis import given, strategies as st
 from spexread.structdef import SPEInfoHeader, ROIInfo
-from spexread.parsing import parse_spe_metadata, parse_spe_data, read_spe_file
+from spexread.parsing import parse_spe_metadata, parse_spe_data, read_spe_file, _spe_metadata_from_buffer, _parse_ROI
+from spexread.data_models import SPEType
 import datetime
 import numpy as np
 import io
@@ -18,8 +19,9 @@ rng = np.random.default_rng()
     ybin=st.sampled_from([1, 2, 4]),
     frames=st.integers(1, 10),
     roi_count=st.integers(1, 3),
+    roi_flip=st.sampled_from([True, False]),
 )
-def test_SPEv2_file(tmp_path_factory, xdim, ydim, xbin, ybin, frames: int, roi_count):
+def test_SPEv2_file(xdim, ydim, xbin, ybin, frames: int, roi_count: int, roi_flip: bool):
     """Strategy to create SPE v2 files"""
     header = SPEInfoHeader()
     header.file_header_ver = 2.2
@@ -34,11 +36,11 @@ def test_SPEv2_file(tmp_path_factory, xdim, ydim, xbin, ybin, frames: int, roi_c
     header.NumROI = roi_count
     for i in range(roi_count):
         roi = ROIInfo()
-        roi.startx = 1
-        roi.endx = xdim
+        roi.startx = xdim + 1 if roi_flip else 1
+        roi.endx = 0 if roi_flip else xdim
         roi.groupx = xbin
-        roi.starty = 1
-        roi.endy = ydim
+        roi.starty = ydim + 1 if roi_flip else 1
+        roi.endy = 0 if roi_flip else ydim
         roi.groupy = ybin
         header.ROIinfblk[i] = roi
     header.NumFrames = frames
@@ -49,20 +51,25 @@ def test_SPEv2_file(tmp_path_factory, xdim, ydim, xbin, ybin, frames: int, roi_c
     header.ExperimentTimeLocal = datetime.datetime.today().strftime("%H%M%S").encode()
     header.ExperimentTimeUTC = (datetime.datetime.today() - datetime.timedelta(hours=1)).strftime("%H%M%S").encode()
 
-    values = rng.normal(100, 20, xdim // xbin * ydim // ybin * roi_count * frames).astype(int).reshape(-1, ydim // ybin)
+    values = (
+        rng.normal(100, 20, xdim // xbin * ydim // ybin * roi_count * frames)
+        .astype(int)
+        .reshape(-1, ydim // ybin, xdim // xbin)
+    )
 
-    p = tmp_path_factory.getbasetemp().joinpath(f"tmp_v2_{xdim}-{ydim}-{frames}-{roi_count}.spe")
-    with p.open("wb") as fo:
-        fo.write(header)
-        fo.write(values.tobytes())
-    data = read_spe_file(p)
-    # for i, (_, roi) in enumerate(data.items()):
-    #     assert_allclose(roi.data, values[:, i, :, :])
+    buff = io.BytesIO()
+    buff.write(header)
+    buff.write(values.tobytes())
+    buff.seek(0)
 
-    assert data.FrameInfo["count"] == frames
-    assert len(data.FrameInfo["ROIs"]) == roi_count
-    for roi in data.FrameInfo["ROIs"]:
-        assert roi["width"] == xdim // xbin
-        assert roi["height"] == ydim // ybin
-        assert roi["size"] == xdim // xbin * ydim // ybin * 4
-    assert data.FrameInfo["stride"] == xdim // xbin * ydim // ybin * 4 * roi_count
+    metadata = _spe_metadata_from_buffer(buff)
+    # data =
+    assert isinstance(metadata, SPEType)
+    assert metadata.FrameInfo.count == frames
+    assert len(metadata.FrameInfo.ROIs) == roi_count
+    assert metadata.FrameInfo.stride == xdim // xbin * ydim // ybin * 4 * roi_count
+    for _i, roi in enumerate(metadata.FrameInfo.ROIs):
+        # TODO: add reworked data parsing from a buffer to test
+        assert roi.width == xdim // xbin
+        assert roi.height == ydim // ybin
+        assert roi.size == xdim // xbin * ydim // ybin * 4
