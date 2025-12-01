@@ -116,5 +116,5 @@ src/spexread/_version.py
 
 # dev files; SPE, XML & IPYNB
 /*.spe
-*.ipynb
+/*.ipynb
 .ruff_cache

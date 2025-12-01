@@ -93,8 +93,8 @@ def _parse_tracked_metadata(file_path: Path | str, info: SPEType) -> dict[str, n
         This only works for SPE v3.0 files, legacy files don't store this information.
 
     Args:
-        f (Path|str)            : A file path
-        info (SPEType)          : A metadata model containing file metadata, backed by `pydantic`
+        file_path (Path|str): A file path
+        info (SPEType): A metadata model containing file metadata, backed by `pydantic`
     """
     file_path = Path(file_path) if isinstance(file_path, str) else file_path
     block_offset = sum([r.stride for r in info.FrameInfo.ROIs])
@@ -169,8 +169,8 @@ def parse_spe_metadata(f: Path | str, strict: bool = False) -> SPEType:
     This `SPEType` contains most relevant metadata and the required information to parse the binary data blob to extract per-ROI and per-frame data and associated (optional) per-frame metadata.
 
     Args:
-        f (Path|str)                : A file path.
-        strict (bool, optional)     : Force strict parsing, meaning some validity checks are performed, default=False.
+        f (Path|str): A file path.
+        strict (bool, optional): Force strict parsing, meaning some validity checks are performed, default=False.
 
     Returns:
         SPEType                     : A `pydantic` model of metadata contained in the header and footer of the file.
@@ -194,6 +194,10 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
     In case `with_calibration=True`, the wavelenght calibration (if known) will be extracted from the file and added to each DataArray.
 
     In doing so, we attempt to account for differences in binning and a potential change of orientation of the sensor w.r.t. when the calibration was performed.
+
+    Args:
+        f (Path): A file path
+        info (SPEType): A metadata model containing file metadata, backed by `pydantic`
     """
     data_arrays = []
 
@@ -254,6 +258,9 @@ def read_spe_file(file: Path | str, as_dataset=True, strict: bool = False) -> xr
         file (Path|str):        A file path
         as_dataset (bool):      Flag to return either an `xarray.Dataset` (True) or a list of `xarray.DataArray` (False). Default: `True`
         strict (bool):          Flag to perform validation check on the file using the binary metadata header, potentially detecting invalid/unsupported files. Default: `False`
+
+    Returns:
+        The data per-ROI, as either a joined `xarray.Dataset`, or a list of `xarray.DataArrays`
 
     For more info, refer to the docs for [`parse_spe_metadata`][(p).parsing.parse_spe_metadata] and [`parse_spe_data`][(p).parsing.parse_spe_data].
     """

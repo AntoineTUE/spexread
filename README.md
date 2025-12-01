@@ -6,7 +6,7 @@
 [![GitHub Workflow Status docs](https://img.shields.io/github/actions/workflow/status/AntoineTUE/spexread/documentation.yml?label=Documentation%20build)](https://antoinetue.github.io/spexread)
 [![PyPI - Version](https://img.shields.io/pypi/v/spexread)](https://pypi.python.org/pypi/spexread)
 [![PyPI - Python versions](https://img.shields.io/pypi/pyversions/spexread.svg)](https://pypi.python.org/pypi/spexread)
-[![PyPI - Downloads](https://img.shields.io/pypi/dw/spexread)](https://pypistats.org/packages/spexread)
+[![PyPI - Downloads](https://img.shields.io/pypi/dm/spexread)](https://pypistats.org/packages/spexread)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Hatch project](https://img.shields.io/badge/%F0%9F%A5%9A-Hatch-4051b5.svg)](https://github.com/pypa/hatch)
 

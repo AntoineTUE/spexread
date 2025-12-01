@@ -13,11 +13,11 @@ site_dir: site
 theme:
   name: material
   language: en
-  logo: assets/logo.svg
+  # logo: assets/logo.svg
   favicon: assets/logo.svg
   icon:
     repo: fontawesome/brands/github-alt
-    logo: material/material-camera-iris
+    logo: "material/camera-burst"
   font:
     text: Roboto
     code: Roboto Mono
@@ -40,7 +40,6 @@ theme:
     - navigation.sections
     - navigation.tabs.sticky
     - navigation.footer
-    - toc.integrate
     - toc.follow
     - content.code.copy
 
@@ -74,6 +73,9 @@ plugins:
     default_handler: python_xref
     handlers:
       python_xref:
+        inventories:
+          - https://docs.xarray.dev/en/stable/objects.inv
+          - https://numpy.org/doc/stable/objects.inv
         paths:
           - src
         options:
@@ -110,6 +112,7 @@ plugins:
     include: ["*.ipynb"]
     ignore: ["*/.ipynb_checkpoints/*.ipynb"]
 
+
 markdown_extensions:
   - markdown.extensions.abbr:
   - markdown.extensions.admonition:
@@ -145,6 +148,10 @@ markdown_extensions:
   - pymdownx.saneheaders:
   - pymdownx.smartsymbols:
   - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.tabbed:
       alternate_style: true
   - pymdownx.tasklist:
@@ -161,8 +168,14 @@ extra:
 extra_javascript:
   - assets/javascript/mathjax.js
   - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js
+  - assets/javascript/mermaid.min.js
+
+extra_css:
+  - assets/stylesheets/extra.css
 
 nav:
   - Home: index.md
+  - File_info.md
+  - Examples: examples.ipynb
   - API Reference
   - License: license.md
