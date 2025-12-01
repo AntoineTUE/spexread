@@ -16,7 +16,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  deploy_docs_dev:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
@@ -40,5 +40,5 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-      - name: Deploy with documentation
-        run: hatch run docs:mkdocs gh-deploy
+      - name: Deploy latest dev version docs
+        run: hatch run docs:build-ci --push dev

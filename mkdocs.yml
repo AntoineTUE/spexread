@@ -2,10 +2,10 @@
 site_name: spexread
 site_description: 'A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField'
 site_author: Antoine Salden
-site_url: https://github.com/AntoineTUE/spexread
+site_url: https://github.com/AntoineTUE/spexread/
 copyright: 'Copyright &copy; Antoine Salden 2025-present'
 repo_name: spexread
-repo_url: https://github.com/AntoineTUE/spexread
+repo_url: https://github.com/AntoineTUE/spexread/
 
 
 docs_dir: docs
