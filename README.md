@@ -1,6 +1,6 @@
 # spexread
 
-<!-- [![DOI](https://zenodo.org/badge/DOI/)](https://doi.org/) -->
+[![DOI](https://zenodo.org/badge/1033180755.svg)](https://doi.org/10.5281/zenodo.17782266)
 [![GitHub License](https://img.shields.io/github/license/AntoineTUE/spexread)](https//www.github.com/AntoineTUE/spexread/blob/main/LICENSE)
 [![GitHub Workflow Status build](https://img.shields.io/github/actions/workflow/status/AntoineTUE/spexread/build.yml?label=PyPI%20build)](https://pypi.python.org/pypi/spexread)
 [![GitHub Workflow Status docs](https://img.shields.io/github/actions/workflow/status/AntoineTUE/spexread/documentation.yml?label=Documentation%20build)](https://antoinetue.github.io/spexread)
@@ -34,7 +34,11 @@ This has a number of key benefits:
 
 ## Installing
 
-`spexread` can be installed easily with `pip`.
+`spexread` can be installed easily with `pip`, from PyPI:
+
+```console
+pip install spexread
+```
 
 To install the latest version from GitHub, you can run the following command:
 
