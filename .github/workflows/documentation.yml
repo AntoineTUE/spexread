@@ -41,4 +41,4 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
       - name: Deploy latest dev version docs
-        run: hatch run docs:build-ci --push dev
+        run: hatch run docs:ci-build --push dev
