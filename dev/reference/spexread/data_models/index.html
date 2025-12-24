@@ -1778,45 +1778,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;PolynomialType
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" PolynomialType">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType.coefficients" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;coefficients
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType.from_struct" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_struct
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3234,45 +3195,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;PolynomialType
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label=" PolynomialType">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType.coefficients" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;coefficients
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#spexread.data_models.PolynomialType.from_struct" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;from_struct
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3443,14 +3365,6 @@
             <td>
               <div class="doc-md-description">
                 <p>The root datamodel for SPE metadata, based on the SPE v3.0 XML structure.</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td><code><a class="autorefs autorefs-internal" title="            PolynomialType (spexread.data_models.PolynomialType)" href="#spexread.data_models.PolynomialType">PolynomialType</a></code></td>
-            <td>
-              <div class="doc-md-description">
-                
               </div>
             </td>
           </tr>
@@ -3653,6 +3567,7 @@
               Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
 
 
+
         <p>Base model for representing XML data.</p>
 
 
@@ -3774,6 +3689,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model for representing information about a Region Of Interest (ROI).</p>
@@ -4076,8 +3992,8 @@
         <p>Validate the <code>type</code> field; only <code>Region</code> is correct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="58 "></span><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
 <span class="linenos" data-linenos="59 "></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="linenos" data-linenos="60 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate the `type` field; only `Region` is correct.&quot;&quot;&quot;</span>
@@ -4114,8 +4030,8 @@
   <p>For Step-and-Glue spectra, this <code>SensorMapping</code> will be absent, as there exists no direct mapping between the overlapped data region and the sensor dimensions.</p>
 </details>
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="65 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="66 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml_node</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;RegionType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="67 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract fields from an XML node to create a `RegionType`.</span>
@@ -4164,8 +4080,8 @@
         <p>Create a <code>RegionType</code> model from a SPE C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 92 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos=" 93 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;RegionType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos=" 94 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `RegionType` model from a SPE C Struct.&quot;&quot;&quot;</span>
@@ -4209,6 +4125,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model representing information about frames captured by the camera.</p>
@@ -4546,8 +4463,8 @@
         <p>Validate the <code>type</code> field; only <code>Frame</code> is allowed.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="121 "></span><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
 <span class="linenos" data-linenos="122 "></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_type</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="linenos" data-linenos="123 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate the `type` field; only `Frame` is allowed.&quot;&quot;&quot;</span>
@@ -4576,8 +4493,8 @@
         <p>Validate the <code>pixelFormat</code> field, mapping it to a string that can be interpreted as a datatype by numpy.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="128 "></span><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;pixelFormat&quot;</span><span class="p">)</span>
 <span class="linenos" data-linenos="129 "></span><span class="k">def</span><span class="w"> </span><span class="nf">validate_pixel_format</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="linenos" data-linenos="130 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate the `pixelFormat` field, mapping it to a string that can be interpreted as a datatype by numpy.&quot;&quot;&quot;</span>
@@ -4607,8 +4524,8 @@
         <p>Create a <code>FrameType</code> model from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="136 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="137 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;FrameType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="138 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `FrameType` model from an XML element.&quot;&quot;&quot;</span>
@@ -4642,8 +4559,8 @@
         <p>Create a <code>FrameType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="148 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="149 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">):</span>
 <span class="linenos" data-linenos="150 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `FrameType` model from a C Struct.&quot;&quot;&quot;</span>
@@ -4683,6 +4600,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model representing a generic implementation of per-frame tracking metadata, such as gate time.</p>
@@ -4827,8 +4745,8 @@
         <p>Create a <code>TrackType</code> from an XML node, given a tag and attribute.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="171 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="172 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml_by_attrib</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">tag</span><span class="p">,</span> <span class="n">attrib</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]):</span>
 <span class="linenos" data-linenos="173 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `TrackType` from an XML node, given a tag and attribute.&quot;&quot;&quot;</span>
@@ -4865,6 +4783,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            TrackType (spexread.data_models.TrackType)" href="#spexread.data_models.TrackType">TrackType</a></code></p>
+
 
 
         <p>A model of the <code>TimeStamp</code> XML element that describes the metadata format of exposure events in the binary data blob.</p>
@@ -5021,6 +4940,7 @@
               Bases: <code><a class="autorefs autorefs-internal" title="            TrackType (spexread.data_models.TrackType)" href="#spexread.data_models.TrackType">TrackType</a></code></p>
 
 
+
         <p>A model of the <code>GateTracking</code> XML element that describes the metadata format of gating events in the binary data blob.</p>
 
 
@@ -5145,6 +5065,7 @@
               Bases: <code><a class="autorefs autorefs-internal" title="            TrackType (spexread.data_models.TrackType)" href="#spexread.data_models.TrackType">TrackType</a></code></p>
 
 
+
         <p>A model of the <code>ModulationTracking</code> XML element that describes the metadata format of RF modulation in the binary data blob.</p>
 
 
@@ -5267,6 +5188,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model for the <code>MetaBlock</code> XML element that describes the dataformat of per-frame tracking metadata.</p>
@@ -5589,8 +5511,8 @@
         <p>Create a <code>MetaBlockType</code> from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="230 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="231 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">,</span> <span class="nb">id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MetaBlockType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="232 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `MetaBlockType` from an XML element.&quot;&quot;&quot;</span>
@@ -5633,6 +5555,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model for the <code>MetaFormat</code> XML element that acts as a container for multiple <a class="autorefs autorefs-internal" title="            MetaBlockType" href="#spexread.data_models.MetaBlockType">MetaBlockType</a> models.</p>
@@ -5758,8 +5681,8 @@
         <p>Create a <code>MetaFormatType</code> from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="259 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="260 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MetaFormatType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="261 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `MetaFormatType` from an XML element.&quot;&quot;&quot;</span>
@@ -5795,8 +5718,8 @@
         <p>Create a <code>MetaFormatType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="273 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="274 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MetaFormatType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="275 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `MetaFormatType` model from a C Struct.&quot;&quot;&quot;</span>
@@ -5829,6 +5752,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model for information about the camera sensor.</p>
@@ -6026,8 +5950,8 @@
         <p>Create a <code>SensorType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="287 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="288 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SensorType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="289 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SensorType` model from a C Struct.&quot;&quot;&quot;</span>
@@ -6062,6 +5986,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model for mapping ROIs to regions on the sensor.</p>
@@ -6349,8 +6274,8 @@
         <p>Create a <code>SensorMapType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
               <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="313 "></span><span class="nd">@classmethod</span>
 <span class="linenos" data-linenos="314 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SensorMapType&quot;</span><span class="p">:</span>
 <span class="linenos" data-linenos="315 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SensorMapType` model from a C Struct.&quot;&quot;&quot;</span>
@@ -6397,6 +6322,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A data model for containing wavelength calibration information.</p>
@@ -6640,17 +6566,17 @@
 <p>If input <code>value</code> is already a numpy array, it is assumed to be correct already.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="343 "></span><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;wavelength&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-<span class="linenos" data-linenos="344 "></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_wavelength</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
-<span class="linenos" data-linenos="345 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse string-formatted wavelength arrays to a 1D numpy array of floats.</span>
-<span class="linenos" data-linenos="346 "></span>
-<span class="linenos" data-linenos="347 "></span><span class="sd">    If input `value` is already a numpy array, it is assumed to be correct already.</span>
-<span class="linenos" data-linenos="348 "></span><span class="sd">    &quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="349 "></span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-<span class="linenos" data-linenos="350 "></span>        <span class="k">return</span> <span class="n">value</span>
-<span class="linenos" data-linenos="351 "></span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="342 "></span><span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;wavelength&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+<span class="linenos" data-linenos="343 "></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_wavelength</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NDArray</span><span class="p">:</span>
+<span class="linenos" data-linenos="344 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse string-formatted wavelength arrays to a 1D numpy array of floats.</span>
+<span class="linenos" data-linenos="345 "></span>
+<span class="linenos" data-linenos="346 "></span><span class="sd">    If input `value` is already a numpy array, it is assumed to be correct already.</span>
+<span class="linenos" data-linenos="347 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="348 "></span>    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+<span class="linenos" data-linenos="349 "></span>        <span class="k">return</span> <span class="n">value</span>
+<span class="linenos" data-linenos="350 "></span>    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -6673,18 +6599,18 @@
         <p>Create a <code>WavelengthCalibType</code> from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="353 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="354 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WavelengthCalibType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="355 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `WavelengthCalibType` from an XML element.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="356 "></span>    <span class="n">xpath</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/*/*/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:WavelengthMapping&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)</span>
-<span class="linenos" data-linenos="357 "></span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-<span class="linenos" data-linenos="358 "></span>        <span class="k">return</span> <span class="kc">None</span>
-<span class="linenos" data-linenos="359 "></span>    <span class="k">else</span><span class="p">:</span>
-<span class="linenos" data-linenos="360 "></span>        <span class="n">node</span> <span class="o">=</span> <span class="n">xpath</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="linenos" data-linenos="361 "></span>    <span class="n">wls</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./spe:Wavelength&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
-<span class="linenos" data-linenos="362 "></span>    <span class="k">return</span> <span class="n">WavelengthCalibType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">attrib</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wls</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="352 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="353 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WavelengthCalibType&quot;</span><span class="p">:</span>
+<span class="linenos" data-linenos="354 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `WavelengthCalibType` from an XML element.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="355 "></span>    <span class="n">xpath</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/*/*/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:WavelengthMapping&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)</span>
+<span class="linenos" data-linenos="356 "></span>    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xpath</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos" data-linenos="357 "></span>        <span class="k">return</span> <span class="kc">None</span>
+<span class="linenos" data-linenos="358 "></span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos" data-linenos="359 "></span>        <span class="n">node</span> <span class="o">=</span> <span class="n">xpath</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos" data-linenos="360 "></span>    <span class="n">wls</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="s2">&quot;./spe:Wavelength&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">text</span>
+<span class="linenos" data-linenos="361 "></span>    <span class="k">return</span> <span class="n">WavelengthCalibType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">attrib</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wls</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -6707,26 +6633,26 @@
         <p>Create a <code>WavelengthCalibType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="364 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="365 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WavelengthCalibType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="366 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `WavelengthCalibType` model from a C Struct.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="367 "></span>    <span class="k">if</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">calib_valid</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-<span class="linenos" data-linenos="368 "></span>        <span class="n">calib_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="linenos" data-linenos="369 "></span>        <span class="c1"># pix_num = cstruct.xdim</span>
-<span class="linenos" data-linenos="370 "></span>        <span class="n">pix_num</span> <span class="o">=</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">xDimDet</span>
-<span class="linenos" data-linenos="371 "></span>    <span class="k">else</span><span class="p">:</span>
-<span class="linenos" data-linenos="372 "></span>        <span class="n">calib_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ycalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="linenos" data-linenos="373 "></span>        <span class="c1"># pix_num = cstruct.ydim</span>
-<span class="linenos" data-linenos="374 "></span>        <span class="n">pix_num</span> <span class="o">=</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">yDimDet</span>
-<span class="linenos" data-linenos="375 "></span>    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">pix_num</span><span class="p">),</span> <span class="n">calib_poly</span><span class="p">)</span>
-<span class="linenos" data-linenos="376 "></span>
-<span class="linenos" data-linenos="377 "></span>    <span class="c1"># TODO: support y calibration, or other orientation</span>
-<span class="linenos" data-linenos="378 "></span>    <span class="c1"># TODO: Implement support for glued spectra</span>
-<span class="linenos" data-linenos="379 "></span>    <span class="c1"># TODO: expose the calibration polynomial. Note that SPE stores an empirical one, SPE3 one based on spectrometer geometry etc.</span>
-<span class="linenos" data-linenos="380 "></span>    <span class="c1"># TODO: Find a way to support both cass where ROI is smaller than sensor and must be sliced, and when spectrum is stiched and thus larger than detector.</span>
-<span class="linenos" data-linenos="381 "></span>    <span class="k">return</span> <span class="n">WavelengthCalibType</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="n">calib_poly</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="363 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="364 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WavelengthCalibType&quot;</span><span class="p">:</span>
+<span class="linenos" data-linenos="365 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `WavelengthCalibType` model from a C Struct.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="366 "></span>    <span class="k">if</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">calib_valid</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+<span class="linenos" data-linenos="367 "></span>        <span class="n">calib_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="linenos" data-linenos="368 "></span>        <span class="c1"># pix_num = cstruct.xdim</span>
+<span class="linenos" data-linenos="369 "></span>        <span class="n">pix_num</span> <span class="o">=</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">xDimDet</span>
+<span class="linenos" data-linenos="370 "></span>    <span class="k">else</span><span class="p">:</span>
+<span class="linenos" data-linenos="371 "></span>        <span class="n">calib_poly</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ycalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
+<span class="linenos" data-linenos="372 "></span>        <span class="c1"># pix_num = cstruct.ydim</span>
+<span class="linenos" data-linenos="373 "></span>        <span class="n">pix_num</span> <span class="o">=</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">yDimDet</span>
+<span class="linenos" data-linenos="374 "></span>    <span class="n">wavelength</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">pix_num</span><span class="p">),</span> <span class="n">calib_poly</span><span class="p">)</span>
+<span class="linenos" data-linenos="375 "></span>
+<span class="linenos" data-linenos="376 "></span>    <span class="c1"># TODO: support y calibration, or other orientation</span>
+<span class="linenos" data-linenos="377 "></span>    <span class="c1"># TODO: Implement support for glued spectra</span>
+<span class="linenos" data-linenos="378 "></span>    <span class="c1"># TODO: expose the calibration polynomial. Note that SPE stores an empirical one, SPE3 one based on spectrometer geometry etc.</span>
+<span class="linenos" data-linenos="379 "></span>    <span class="c1"># TODO: Find a way to support both cass where ROI is smaller than sensor and must be sliced, and when spectrum is stiched and thus larger than detector.</span>
+<span class="linenos" data-linenos="380 "></span>    <span class="k">return</span> <span class="n">WavelengthCalibType</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;Normal&quot;</span><span class="p">,</span> <span class="n">wavelength</span><span class="o">=</span><span class="n">wavelength</span><span class="p">,</span> <span class="n">coefficients</span><span class="o">=</span><span class="n">calib_poly</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -6755,6 +6681,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>A model representing calibration data.</p>
@@ -6964,19 +6891,19 @@
         <p>Create a <code>CalibrationsType</code> from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="408 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="409 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CalibrationsType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="410 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `CalibrationsType` from an XML element.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="411 "></span>    <span class="n">node</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/*/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:Calibrations&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="linenos" data-linenos="412 "></span>    <span class="n">wl_calib</span> <span class="o">=</span> <span class="n">WavelengthCalibType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
-<span class="linenos" data-linenos="413 "></span>    <span class="n">sensor_info</span> <span class="o">=</span> <span class="n">SensorType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorInformation&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
-<span class="linenos" data-linenos="414 "></span>    <span class="n">sensor_mapping</span> <span class="o">=</span> <span class="p">[</span>
-<span class="linenos" data-linenos="415 "></span>        <span class="n">SensorMapType</span><span class="p">(</span><span class="o">**</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:SensorMapping&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)</span>
-<span class="linenos" data-linenos="416 "></span>    <span class="p">]</span>
-<span class="linenos" data-linenos="417 "></span>
-<span class="linenos" data-linenos="418 "></span>    <span class="k">return</span> <span class="n">CalibrationsType</span><span class="p">(</span><span class="n">WavelengthMapping</span><span class="o">=</span><span class="n">wl_calib</span><span class="p">,</span> <span class="n">SensorInformation</span><span class="o">=</span><span class="n">sensor_info</span><span class="p">,</span> <span class="n">SensorMapping</span><span class="o">=</span><span class="n">sensor_mapping</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="407 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="408 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CalibrationsType&quot;</span><span class="p">:</span>
+<span class="linenos" data-linenos="409 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `CalibrationsType` from an XML element.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="410 "></span>    <span class="n">node</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/*/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:Calibrations&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos" data-linenos="411 "></span>    <span class="n">wl_calib</span> <span class="o">=</span> <span class="n">WavelengthCalibType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">element</span><span class="p">)</span>
+<span class="linenos" data-linenos="412 "></span>    <span class="n">sensor_info</span> <span class="o">=</span> <span class="n">SensorType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;SensorInformation&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+<span class="linenos" data-linenos="413 "></span>    <span class="n">sensor_mapping</span> <span class="o">=</span> <span class="p">[</span>
+<span class="linenos" data-linenos="414 "></span>        <span class="n">SensorMapType</span><span class="p">(</span><span class="o">**</span><span class="n">elem</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:SensorMapping&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)</span>
+<span class="linenos" data-linenos="415 "></span>    <span class="p">]</span>
+<span class="linenos" data-linenos="416 "></span>
+<span class="linenos" data-linenos="417 "></span>    <span class="k">return</span> <span class="n">CalibrationsType</span><span class="p">(</span><span class="n">WavelengthMapping</span><span class="o">=</span><span class="n">wl_calib</span><span class="p">,</span> <span class="n">SensorInformation</span><span class="o">=</span><span class="n">sensor_info</span><span class="p">,</span> <span class="n">SensorMapping</span><span class="o">=</span><span class="n">sensor_mapping</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -6999,16 +6926,16 @@
         <p>Create a <code>CalibrationsType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="420 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="421 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CalibrationsType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="422 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `CalibrationsType` model from a C Struct.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="423 "></span>    <span class="k">return</span> <span class="n">CalibrationsType</span><span class="p">(</span>
-<span class="linenos" data-linenos="424 "></span>        <span class="n">WavelengthMapping</span><span class="o">=</span><span class="n">WavelengthCalibType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="425 "></span>        <span class="n">SensorInformation</span><span class="o">=</span><span class="n">SensorType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="426 "></span>        <span class="n">SensorMapping</span><span class="o">=</span><span class="p">[</span><span class="n">SensorMapType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">NumROI</span><span class="p">)],</span>
-<span class="linenos" data-linenos="427 "></span>    <span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="419 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="420 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;CalibrationsType&quot;</span><span class="p">:</span>
+<span class="linenos" data-linenos="421 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `CalibrationsType` model from a C Struct.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="422 "></span>    <span class="k">return</span> <span class="n">CalibrationsType</span><span class="p">(</span>
+<span class="linenos" data-linenos="423 "></span>        <span class="n">WavelengthMapping</span><span class="o">=</span><span class="n">WavelengthCalibType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="424 "></span>        <span class="n">SensorInformation</span><span class="o">=</span><span class="n">SensorType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="425 "></span>        <span class="n">SensorMapping</span><span class="o">=</span><span class="p">[</span><span class="n">SensorMapType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">NumROI</span><span class="p">)],</span>
+<span class="linenos" data-linenos="426 "></span>    <span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -7037,6 +6964,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>Model for containing general information about the file, such as creation date, etc.</p>
@@ -7242,13 +7170,13 @@
         <p>Create a <code>GeneralInfoType</code> from an XML element.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="438 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="439 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
-<span class="linenos" data-linenos="440 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `GeneralInfoType` from an XML element.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="441 "></span>    <span class="n">node</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:GeneralInformation&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="linenos" data-linenos="442 "></span>    <span class="k">return</span> <span class="n">GeneralInfoType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;FileInformation&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="437 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="438 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+<span class="linenos" data-linenos="439 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `GeneralInfoType` from an XML element.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="440 "></span>    <span class="n">node</span> <span class="o">=</span> <span class="n">element</span><span class="o">.</span><span class="n">getroottree</span><span class="p">()</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:GeneralInformation&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos" data-linenos="441 "></span>    <span class="k">return</span> <span class="n">GeneralInfoType</span><span class="p">(</span><span class="o">**</span><span class="n">node</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s2">&quot;FileInformation&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">nsmap</span><span class="p">)</span><span class="o">.</span><span class="n">attrib</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -7271,17 +7199,17 @@
         <p>Create a <code>GeneralInfoType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="444 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="445 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">):</span>
-<span class="linenos" data-linenos="446 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `GeneralInfoType` model from a C Struct.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="447 "></span>    <span class="n">fmt_time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M%S&quot;</span>
-<span class="linenos" data-linenos="448 "></span>    <span class="n">dt_local</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ExperimentTimeLocal</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fmt_time</span><span class="p">)</span>
-<span class="linenos" data-linenos="449 "></span>    <span class="n">dt_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ExperimentTimeUTC</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fmt_time</span><span class="p">)</span>
-<span class="linenos" data-linenos="450 "></span>    <span class="n">tz</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">(</span><span class="n">dt_local</span> <span class="o">-</span> <span class="n">dt_utc</span><span class="p">)</span>
-<span class="linenos" data-linenos="451 "></span>    <span class="n">dt_local</span> <span class="o">=</span> <span class="n">dt_local</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
-<span class="linenos" data-linenos="452 "></span>    <span class="k">return</span> <span class="n">GeneralInfoType</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">dt_local</span><span class="p">,</span> <span class="n">last_modified</span><span class="o">=</span><span class="n">dt_local</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="n">cstruct</span><span class="o">.</span><span class="n">Comments</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="443 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="444 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">):</span>
+<span class="linenos" data-linenos="445 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `GeneralInfoType` model from a C Struct.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="446 "></span>    <span class="n">fmt_time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">%b%Y %H%M%S&quot;</span>
+<span class="linenos" data-linenos="447 "></span>    <span class="n">dt_local</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ExperimentTimeLocal</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fmt_time</span><span class="p">)</span>
+<span class="linenos" data-linenos="448 "></span>    <span class="n">dt_utc</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ExperimentTimeUTC</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fmt_time</span><span class="p">)</span>
+<span class="linenos" data-linenos="449 "></span>    <span class="n">tz</span> <span class="o">=</span> <span class="n">timezone</span><span class="p">(</span><span class="n">dt_local</span> <span class="o">-</span> <span class="n">dt_utc</span><span class="p">)</span>
+<span class="linenos" data-linenos="450 "></span>    <span class="n">dt_local</span> <span class="o">=</span> <span class="n">dt_local</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tzinfo</span><span class="o">=</span><span class="n">tz</span><span class="p">)</span>
+<span class="linenos" data-linenos="451 "></span>    <span class="k">return</span> <span class="n">GeneralInfoType</span><span class="p">(</span><span class="n">created</span><span class="o">=</span><span class="n">dt_local</span><span class="p">,</span> <span class="n">last_modified</span><span class="o">=</span><span class="n">dt_local</span><span class="p">,</span> <span class="n">notes</span><span class="o">=</span><span class="n">cstruct</span><span class="o">.</span><span class="n">Comments</span><span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
@@ -7310,6 +7238,7 @@
     <div class="doc doc-contents ">
             <p class="doc doc-class-bases">
               Bases: <code><a class="autorefs autorefs-internal" title="            XMLBaseModel (spexread.data_models.XMLBaseModel)" href="#spexread.data_models.XMLBaseModel">XMLBaseModel</a></code></p>
+
 
 
         <p>The root datamodel for SPE metadata, based on the SPE v3.0 XML structure.</p>
@@ -7558,21 +7487,21 @@
 <p>It traverses the XML document starting from the root node to build the model.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="484 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="485 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-<span class="linenos" data-linenos="486 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SPEType` model from an XML root node.</span>
-<span class="linenos" data-linenos="487 "></span>
-<span class="linenos" data-linenos="488 "></span><span class="sd">    It traverses the XML document starting from the root node to build the model.</span>
-<span class="linenos" data-linenos="489 "></span><span class="sd">    &quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="490 "></span>    <span class="n">base</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:SpeFormat&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-<span class="linenos" data-linenos="491 "></span>    <span class="n">frame_info</span> <span class="o">=</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-<span class="linenos" data-linenos="492 "></span>    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="linenos" data-linenos="493 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;MetaFormat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MetaFormatType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-<span class="linenos" data-linenos="494 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;Calibrations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CalibrationsType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-<span class="linenos" data-linenos="495 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;GeneralInfo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">GeneralInfoType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
-<span class="linenos" data-linenos="496 "></span>    <span class="k">return</span> <span class="n">SPEType</span><span class="p">(</span><span class="o">**</span><span class="n">base</span><span class="o">.</span><span class="n">attrib</span><span class="p">,</span> <span class="n">FrameInfo</span><span class="o">=</span><span class="n">frame_info</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="483 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="484 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_xml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+<span class="linenos" data-linenos="485 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SPEType` model from an XML root node.</span>
+<span class="linenos" data-linenos="486 "></span>
+<span class="linenos" data-linenos="487 "></span><span class="sd">    It traverses the XML document starting from the root node to build the model.</span>
+<span class="linenos" data-linenos="488 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="489 "></span>    <span class="n">base</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">xpath</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/</span><span class="si">{</span><span class="n">PRE</span><span class="si">}</span><span class="s2">:SpeFormat&quot;</span><span class="p">,</span> <span class="n">namespaces</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">ns</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="linenos" data-linenos="490 "></span>    <span class="n">frame_info</span> <span class="o">=</span> <span class="n">FrameType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+<span class="linenos" data-linenos="491 "></span>    <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos" data-linenos="492 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;MetaFormat&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">MetaFormatType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+<span class="linenos" data-linenos="493 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;Calibrations&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">CalibrationsType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+<span class="linenos" data-linenos="494 "></span>    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;GeneralInfo&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">GeneralInfoType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">base</span><span class="p">)</span>
+<span class="linenos" data-linenos="495 "></span>    <span class="k">return</span> <span class="n">SPEType</span><span class="p">(</span><span class="o">**</span><span class="n">base</span><span class="o">.</span><span class="n">attrib</span><span class="p">,</span> <span class="n">FrameInfo</span><span class="o">=</span><span class="n">frame_info</span><span class="p">,</span> <span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">})</span>
 </code></pre></div>
             </details>
     </div>
@@ -7595,163 +7524,18 @@
         <p>Create a <code>SPEType</code> model from a C Struct.</p>
 
 
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="498 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="499 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SPEType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="500 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SPEType` model from a C Struct.&quot;&quot;&quot;</span>
-<span class="linenos" data-linenos="501 "></span>    <span class="k">return</span> <span class="n">SPEType</span><span class="p">(</span>
-<span class="linenos" data-linenos="502 "></span>        <span class="n">version</span><span class="o">=</span><span class="n">cstruct</span><span class="o">.</span><span class="n">file_header_ver</span><span class="p">,</span>
-<span class="linenos" data-linenos="503 "></span>        <span class="n">FrameInfo</span><span class="o">=</span><span class="n">FrameType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="504 "></span>        <span class="n">MetaFormat</span><span class="o">=</span><span class="n">MetaFormatType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="505 "></span>        <span class="n">Calibrations</span><span class="o">=</span><span class="n">CalibrationsType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="506 "></span>        <span class="n">GeneralInfo</span><span class="o">=</span><span class="n">GeneralInfoType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
-<span class="linenos" data-linenos="507 "></span>    <span class="p">)</span>
-</code></pre></div>
-            </details>
-    </div>
-
-</div>
-
-
-
-  </div>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="spexread.data_models.PolynomialType" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">PolynomialType</span>
-
-
-<a href="#spexread.data_models.PolynomialType" class="headerlink" title="Permanent link">&para;</a></h2>
-
-
-    <div class="doc doc-contents ">
-            <p class="doc doc-class-bases">
-              Bases: <code><span title="pydantic.BaseModel">BaseModel</span></code></p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<p><span class="doc-section-title">Methods:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-            <tr class="doc-section-item">
-              <td><code><a class="autorefs autorefs-internal" title="            from_struct (spexread.data_models.PolynomialType.from_struct)" href="#spexread.data_models.PolynomialType.from_struct">from_struct</a></code></td>
-              <td>
-                <div class="doc-md-description">
-                  
-                </div>
-              </td>
-            </tr>
-      </tbody>
-    </table>
-
-
-
-
-<p><span class="doc-section-title">Attributes:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td><code><a class="autorefs autorefs-internal" title="            coefficients (spexread.data_models.PolynomialType.coefficients)" href="#spexread.data_models.PolynomialType.coefficients">coefficients</a></code></td>
-            <td>
-                  <code><span title="numpydantic.NDArray">NDArray</span>[<span title="numpydantic.Shape">Shape</span>[&#39;* x&#39;], <a class="autorefs autorefs-external" title="numpy.double" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.double">double</a>]</code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-
-
-  <div class="doc doc-children">
-
-
-
-
-
-
-
-<div class="doc doc-object doc-attribute">
-
-
-
-<h3 id="spexread.data_models.PolynomialType.coefficients" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">coefficients</span>
-
-
-<a href="#spexread.data_models.PolynomialType.coefficients" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="n">coefficients</span><span class="p">:</span> <span class="n"><span title="numpydantic.NDArray">NDArray</span></span><span class="p">[</span><span class="n"><span title="numpydantic.Shape">Shape</span></span><span class="p">[</span><span class="s1">&#39;* x&#39;</span><span class="p">],</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.double" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.double">double</a></span><span class="p">]</span> <span class="o">=</span> <span class="n"><span title="pydantic.Field">Field</span></span><span class="p">(</span><span class="n"><span title="pydantic.Field(default)">default</span></span><span class="o">=</span><span class="n"><a class="autorefs autorefs-external" title="numpy.array" href="https://numpy.org/doc/stable/reference/generated/numpy.array.html#numpy.array">array</a></span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n"><span title="numpy.array(dtype)">dtype</span></span><span class="o">=</span><span class="n"><a class="autorefs autorefs-external" title="numpy.double" href="https://numpy.org/doc/stable/reference/arrays.scalars.html#numpy.double">double</a></span><span class="p">))</span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-    </div>
-
-</div>
-
-
-
-
-<div class="doc doc-object doc-function">
-
-
-<h3 id="spexread.data_models.PolynomialType.from_struct" class="doc doc-heading">
-<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">from_struct</span>
-
-
-<a href="#spexread.data_models.PolynomialType.from_struct" class="headerlink" title="Permanent link">&para;</a></h3>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEInfoHeader (spexread.structdef.SPEInfoHeader)" href="../structdef/#spexread.structdef.SPEInfoHeader">SPEInfoHeader</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            PolynomialType (spexread.data_models.PolynomialType)" href="#spexread.data_models.PolynomialType">PolynomialType</a></span>
-</code></pre></div>
-
-    <div class="doc doc-contents ">
-
-
-            <details class="quote">
-              <summary>Source code in <code>src\spexread\data_models.py</code></summary>
-              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="513 "></span><span class="nd">@classmethod</span>
-<span class="linenos" data-linenos="514 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;PolynomialType&quot;</span><span class="p">:</span>
-<span class="linenos" data-linenos="515 "></span>    <span class="k">if</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">calib_valid</span><span class="p">:</span>
-<span class="linenos" data-linenos="516 "></span>        <span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">xcalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="linenos" data-linenos="517 "></span>    <span class="k">elif</span> <span class="n">cstruct</span><span class="o">.</span><span class="n">ycalibration</span><span class="o">.</span><span class="n">calib_valid</span><span class="p">:</span>
-<span class="linenos" data-linenos="518 "></span>        <span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">cstruct</span><span class="o">.</span><span class="n">ycalibration</span><span class="o">.</span><span class="n">polynom_coeff</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="linenos" data-linenos="519 "></span>    <span class="k">else</span><span class="p">:</span>
-<span class="linenos" data-linenos="520 "></span>        <span class="n">coeff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">double</span><span class="p">)</span>
-<span class="linenos" data-linenos="521 "></span>    <span class="k">return</span> <span class="n">PolynomialType</span><span class="p">(</span><span class="n">coefficients</span><span class="o">=</span><span class="n">coeff</span><span class="p">)</span>
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/data_models.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="497 "></span><span class="nd">@classmethod</span>
+<span class="linenos" data-linenos="498 "></span><span class="k">def</span><span class="w"> </span><span class="nf">from_struct</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">cstruct</span><span class="p">:</span> <span class="n">SPEInfoHeader</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;SPEType&quot;</span><span class="p">:</span>
+<span class="linenos" data-linenos="499 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a `SPEType` model from a C Struct.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="500 "></span>    <span class="k">return</span> <span class="n">SPEType</span><span class="p">(</span>
+<span class="linenos" data-linenos="501 "></span>        <span class="n">version</span><span class="o">=</span><span class="n">cstruct</span><span class="o">.</span><span class="n">file_header_ver</span><span class="p">,</span>
+<span class="linenos" data-linenos="502 "></span>        <span class="n">FrameInfo</span><span class="o">=</span><span class="n">FrameType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="503 "></span>        <span class="n">MetaFormat</span><span class="o">=</span><span class="n">MetaFormatType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="504 "></span>        <span class="n">Calibrations</span><span class="o">=</span><span class="n">CalibrationsType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="505 "></span>        <span class="n">GeneralInfo</span><span class="o">=</span><span class="n">GeneralInfoType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">cstruct</span><span class="p">),</span>
+<span class="linenos" data-linenos="506 "></span>    <span class="p">)</span>
 </code></pre></div>
             </details>
     </div>
