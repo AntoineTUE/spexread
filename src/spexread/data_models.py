@@ -71,16 +71,22 @@ class RegionType(XMLBaseModel):
         For each such block, the corresponding `SensorMapping` element is retrieved using the `id` tag.
 
         See also [`SensorMapType`][spexread.data_models.SensorMapType]
+
+        Note:
+            For Step-and-Glue spectra, this `SensorMapping` will be absent, as there exists no direct mapping between the overlapped data region and the sensor dimensions.
         """
         calib_ids = node.attrib["calibrations"].split(",")
         root = node.getroottree()
-        sensor_mapping = SensorMapType(
-            **next(
+        _mappings = next(
+            (
                 elem[0]
                 for elem in [root.xpath(f"//{PRE}:SensorMapping[@id='{id}']", namespaces=cls.ns) for id in calib_ids]
                 if elem != []
-            ).attrib
+            ),
+            None,
         )
+        sensor_mapping = SensorMapType(**_mappings.attrib) if _mappings is not None else _mappings
+
         return RegionType(**node.attrib, sensor_mapping=sensor_mapping)
 
     @classmethod
