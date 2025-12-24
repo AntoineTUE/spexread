@@ -49,11 +49,13 @@ watch:
 plugins:
   search: {}
   autorefs: {}
-  include-markdown: {}
+  include-markdown:
+    rewrite_relative_urls: false
   gh-admonitions: {}
   mike:
     alias_type: copy
     canonical_version: "latest"
+    version_selector: true
   git-revision-date-localized:
     exclude:
       - reference/*

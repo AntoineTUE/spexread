@@ -88,4 +88,4 @@ print(metadata.Calibrations.WavelengthCalib.wavelength)
 
 ## License
 
-spexread is licensed under the MIT license.
+spexread is licensed under the [MIT license](./LICENSE).
