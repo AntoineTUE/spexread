@@ -1,10 +1,7 @@
 name: documentation
 on:
-  push:
-    branches:
-      - main
-    tags-ignore:
-      - v*
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -16,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  deploy_docs_dev:
+  deploy_docs_release:
     environment:
       name: github-pages
     runs-on: ubuntu-latest
@@ -40,5 +37,5 @@ jobs:
         run: |
           git config user.name github-actions[bot]
           git config user.email github-actions[bot]@users.noreply.github.com
-      - name: Deploy latest dev version docs
-        run: hatch run docs:ci-build --push dev
+      - name: Build and deploy docs of latest release
+        run: hatch run docs:ci-build --push --update-aliases ${{ github.event.release.tag_name }} latest
