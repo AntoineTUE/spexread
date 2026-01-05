@@ -1,0 +1,2028 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField">
+      
+      
+        <meta name="author" content="Antoine Salden">
+      
+      
+        <link rel="canonical" href="https://github.com/AntoineTUE/spexread/latest/reference/spexread/parsing/">
+      
+      
+        <link rel="prev" href="../data_models/">
+      
+      
+        <link rel="next" href="../structdef/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>parsing - spexread</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spexread.parsing" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="spexread" class="md-header__button md-logo" aria-label="spexread" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 5h2v14H1zm4 0h2v14H5zm17 0H10a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1M11 17l2.5-3.15L15.29 16l2.5-3.22L21 17z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            spexread
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              parsing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntoineTUE/spexread/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spexread
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="spexread" class="md-nav__button md-logo" aria-label="spexread" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 5h2v14H1zm4 0h2v14H5zm17 0H10a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1M11 17l2.5-3.15L15.29 16l2.5-3.22L21 17z"/></svg>
+
+    </a>
+    spexread
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntoineTUE/spexread/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spexread
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../File_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPE file structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>spexread
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>spexread
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>data_models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>parsing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>parsing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.FilePathOrBinaryBuffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;FilePathOrBinaryBuffer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.SPEValidationError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEValidationError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_xml_footer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_xml_footer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_ROI" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_ROI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_tracked_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_tracked_metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._spe_metadata_from_buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_spe_metadata_from_buffer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.parse_spe_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_spe_metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.parse_spe_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_spe_data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.read_spe_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;read_spe_file
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../structdef/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>structdef
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>transformation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.FilePathOrBinaryBuffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;FilePathOrBinaryBuffer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.SPEValidationError" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEValidationError
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_xml_footer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_xml_footer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_ROI" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_ROI
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._parse_tracked_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_parse_tracked_metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing._spe_metadata_from_buffer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;_spe_metadata_from_buffer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.parse_spe_metadata" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_spe_metadata
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.parse_spe_data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;parse_spe_data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.parsing.read_spe_file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-function"></code>&nbsp;read_spe_file
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h1 id="spexread.parsing" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">spexread.parsing</span>
+
+
+<a href="#spexread.parsing" class="headerlink" title="Permanent link">&para;</a></h1>
+
+    <div class="doc doc-contents first">
+
+        <p>Module for handling the parsing of SPE files.</p>
+<p>SPE files have a binary header that contains the offset in the file where the actual data starts.</p>
+<p>Depending on the SPE file version format, this header can contain more elaborate metadata (legacy SPE v2.x) format, or an offset for a flexible XML footer (for SPE v3.0).</p>
+<p>All SPE files use a 4100 byte header for storing metadata, though for SPE v3.0 files this is mainly intended to retrieve the offset for the XML footer that contains rich metadata.</p>
+<p>Based on the information obtained from the header and (optional) footer, the actual data per ROI and frame is read from the file, along with optional per-frame tracking metadata (e.g. exposure time, gate delay).</p>
+
+
+
+
+
+
+
+
+
+
+<p><span class="doc-section-title">Classes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            SPEValidationError (spexread.parsing.SPEValidationError)" href="#spexread.parsing.SPEValidationError">SPEValidationError</a></code></td>
+            <td>
+              <div class="doc-md-description">
+                <p>Exception raised when validating SPE files in <code>strict</code> mode fails.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+<p><span class="doc-section-title">Functions:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            parse_spe_metadata (spexread.parsing.parse_spe_metadata)" href="#spexread.parsing.parse_spe_metadata">parse_spe_metadata</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Retrieve header and/or footer metadata for processing <code>*.SPE</code> files.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            parse_spe_data (spexread.parsing.parse_spe_data)" href="#spexread.parsing.parse_spe_data">parse_spe_data</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Parse the data contents of an <code>*.SPE</code> file using the metadata from the header and/or footer.</p>
+                </div>
+              </td>
+            </tr>
+            <tr class="doc-section-item">
+              <td><code><a class="autorefs autorefs-internal" title="            read_spe_file (spexread.parsing.read_spe_file)" href="#spexread.parsing.read_spe_file">read_spe_file</a></code></td>
+              <td>
+                <div class="doc-md-description">
+                  <p>Read an SPE file including metadata from a file path.</p>
+                </div>
+              </td>
+            </tr>
+      </tbody>
+    </table>
+
+
+
+
+<p><span class="doc-section-title">Attributes:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td><code><a class="autorefs autorefs-internal" title="            FilePathOrBinaryBuffer (spexread.parsing.FilePathOrBinaryBuffer)" href="#spexread.parsing.FilePathOrBinaryBuffer">FilePathOrBinaryBuffer</a></code></td>
+            <td>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Type definition for functions that can accept either a file path, or a file handle (openend in binary mode).</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h2 id="spexread.parsing.FilePathOrBinaryBuffer" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">FilePathOrBinaryBuffer</span>
+
+
+<a href="#spexread.parsing.FilePathOrBinaryBuffer" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">FilePathOrBinaryBuffer</span> <span class="o">=</span> <span class="n"><span title="str">str</span></span> <span class="o">|</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="typing.BinaryIO">BinaryIO</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Type definition for functions that can accept either a file path, or a file handle (openend in binary mode).</p>
+
+    </div>
+
+</div>
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.parsing.SPEValidationError" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SPEValidationError</span>
+
+
+<a href="#spexread.parsing.SPEValidationError" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+            <p class="doc doc-class-bases">
+              Bases: <code><span title="Exception">Exception</span></code></p>
+
+
+
+        <p>Exception raised when validating SPE files in <code>strict</code> mode fails.</p>
+<p>Files that cause this exception to be raised, may not adhere to the SPE v2.x or SPE 3.0 specifition.
+Or at least be different than what is documented in the SPE 3.0 specification about legacy compatibility.</p>
+<p>Attempting to read these files with <code>strict</code> set to <code>False</code> may still result in them being read correctly.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+
+</div>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing._parse_xml_footer" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">_parse_xml_footer</span>
+
+
+<a href="#spexread.parsing._parse_xml_footer" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">_parse_xml_footer</span><span class="p">(</span><span class="n">buff</span><span class="p">:</span> <span class="n"><span title="io.BufferedReader">BufferedReader</span></span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="lxml.etree">etree</span></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Parse the XML footer from a file, by reading from the position <code>offset</code> in the file.</p>
+<p>This offset can be found by reading the file header into an <a class="autorefs autorefs-internal" title="            SPEInfoHeader" href="../structdef/#spexread.structdef.SPEInfoHeader"><code>SPEInfoHeader</code></a>, with the <code>XMLOffset</code> attribute.</p>
+<p>This will only work for SPE v3.0 files, since the <code>XMLOffset</code> field is not defined for older file formats.</p>
+<p>Because of this, it will only make sense to use this function if you know you are dealing with a file that has an xml footer.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="44 "></span><span class="k">def</span><span class="w"> </span><span class="nf">_parse_xml_footer</span><span class="p">(</span><span class="n">buff</span><span class="p">:</span> <span class="s2">&quot;BufferedReader&quot;</span><span class="p">,</span> <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">etree</span><span class="p">:</span>
+<span class="linenos" data-linenos="45 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the XML footer from a file, by reading from the position `offset` in the file.</span>
+<span class="linenos" data-linenos="46 "></span>
+<span class="linenos" data-linenos="47 "></span><span class="sd">    This offset can be found by reading the file header into an [`SPEInfoHeader`][spexread.structdef.SPEInfoHeader], with the `XMLOffset` attribute.</span>
+<span class="linenos" data-linenos="48 "></span>
+<span class="linenos" data-linenos="49 "></span><span class="sd">    This will only work for SPE v3.0 files, since the `XMLOffset` field is not defined for older file formats.</span>
+<span class="linenos" data-linenos="50 "></span>
+<span class="linenos" data-linenos="51 "></span><span class="sd">    Because of this, it will only make sense to use this function if you know you are dealing with a file that has an xml footer.</span>
+<span class="linenos" data-linenos="52 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="53 "></span>    <span class="n">buff</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+<span class="linenos" data-linenos="54 "></span>    <span class="k">return</span> <span class="n">etree</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">buff</span><span class="o">.</span><span class="n">readline</span><span class="p">())</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing._parse_ROI" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">_parse_ROI</span>
+
+
+<a href="#spexread.parsing._parse_ROI" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">_parse_ROI</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            FilePathOrBinaryBuffer (spexread.parsing.FilePathOrBinaryBuffer)" href="#spexread.parsing.FilePathOrBinaryBuffer">FilePathOrBinaryBuffer</a></span><span class="p">,</span> <span class="n">info_header</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></span><span class="p">,</span> <span class="n">roi_idx</span><span class="p">:</span> <span class="n"><span title="int">int</span></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve all frames recorded with the same Region Of Interest (ROI) on the camera sensor.</p>
+<p>Uses a <code>SPEType</code> model containing metadata extracted from the file header and (optional) footer to find chunks of data in the file.</p>
+<p><code>SPE</code> files store frames as a contiguous block of data, where each frame consists of one or more ROI data block, followed by an optional per-frame tracking data block.</p>
+<p>To parse this metadata see <a class="autorefs autorefs-internal" title="            _parse_tracked_metadata" href="#spexread.parsing._parse_tracked_metadata">_parse_tracked_metadata</a>.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A path to a file</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>info_header</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A metadata model containing file metadata, backed by <code>pydantic</code></p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>roi_idx</code>
+            </td>
+            <td>
+                  <code><span title="int">int</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Index of the ROI to extract, starting from 0.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="57 "></span><span class="k">def</span><span class="w"> </span><span class="nf">_parse_ROI</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">FilePathOrBinaryBuffer</span><span class="p">,</span> <span class="n">info_header</span><span class="p">:</span> <span class="n">SPEType</span><span class="p">,</span> <span class="n">roi_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="linenos" data-linenos="58 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve all frames recorded with the same Region Of Interest (ROI) on the camera sensor.</span>
+<span class="linenos" data-linenos="59 "></span>
+<span class="linenos" data-linenos="60 "></span><span class="sd">    Uses a `SPEType` model containing metadata extracted from the file header and (optional) footer to find chunks of data in the file.</span>
+<span class="linenos" data-linenos="61 "></span>
+<span class="linenos" data-linenos="62 "></span><span class="sd">    `SPE` files store frames as a contiguous block of data, where each frame consists of one or more ROI data block, followed by an optional per-frame tracking data block.</span>
+<span class="linenos" data-linenos="63 "></span>
+<span class="linenos" data-linenos="64 "></span><span class="sd">    To parse this metadata see [_parse_tracked_metadata][..].</span>
+<span class="linenos" data-linenos="65 "></span>
+<span class="linenos" data-linenos="66 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos="67 "></span><span class="sd">        file (Path|str):        A path to a file</span>
+<span class="linenos" data-linenos="68 "></span><span class="sd">        info_header (SPEType):  A metadata model containing file metadata, backed by `pydantic`</span>
+<span class="linenos" data-linenos="69 "></span><span class="sd">        roi_idx (int):          Index of the ROI to extract, starting from 0.</span>
+<span class="linenos" data-linenos="70 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="71 "></span>    <span class="n">roi</span> <span class="o">=</span> <span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="n">roi_idx</span><span class="p">]</span>
+<span class="linenos" data-linenos="72 "></span>    <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">pixelFormat</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;monochrome&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+<span class="linenos" data-linenos="73 "></span>    <span class="n">start</span> <span class="o">=</span> <span class="n">HEADERSIZE</span> <span class="o">+</span> <span class="nb">sum</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">stride</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[:</span><span class="n">roi_idx</span><span class="p">]])</span>
+<span class="linenos" data-linenos="74 "></span>    <span class="n">end</span> <span class="o">=</span> <span class="n">HEADERSIZE</span> <span class="o">+</span> <span class="p">(</span><span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">)</span> <span class="o">*</span> <span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">stride</span>
+<span class="linenos" data-linenos="75 "></span>    <span class="n">offset</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">stride</span><span class="p">)</span>
+<span class="linenos" data-linenos="76 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">size</span> <span class="o">//</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span> <span class="o">*</span> <span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+<span class="linenos" data-linenos="77 "></span>    <span class="n">element_count</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">stride</span> <span class="o">//</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+<span class="linenos" data-linenos="78 "></span>    <span class="k">for</span> <span class="n">frame_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">info_header</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">):</span>
+<span class="linenos" data-linenos="79 "></span>        <span class="n">start_index</span> <span class="o">=</span> <span class="n">frame_idx</span> <span class="o">*</span> <span class="n">roi</span><span class="o">.</span><span class="n">stride</span> <span class="o">//</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+<span class="linenos" data-linenos="80 "></span>        <span class="n">stop_index</span> <span class="o">=</span> <span class="p">(</span><span class="n">frame_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">roi</span><span class="o">.</span><span class="n">stride</span> <span class="o">//</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+<span class="linenos" data-linenos="81 "></span>        <span class="n">data</span><span class="p">[</span><span class="n">start_index</span><span class="p">:</span><span class="n">stop_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">element_count</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">[</span><span class="n">frame_idx</span><span class="p">])</span>
+<span class="linenos" data-linenos="82 "></span>    <span class="k">return</span> <span class="n">data</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing._parse_tracked_metadata" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">_parse_tracked_metadata</span>
+
+
+<a href="#spexread.parsing._parse_tracked_metadata" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">_parse_tracked_metadata</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="dict">dict</span></span><span class="p">[</span><span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-external" title="numpy.ndarray" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray">ndarray</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Extract all available per-frame tracking metadata.</p>
+<p>This metadata is stored at the end of each frame datablock in an SPE file and varies in length depending on the enabled tracking information in LightField.</p>
+<p>Which properties are tracked (and their datatype/bitlength) are extracted from the first <a class="autorefs autorefs-internal" title="            MetaBlockType" href="../data_models/#spexread.data_models.MetaBlockType"><code>MetaBlock</code></a> metadata element.</p>
+
+
+<details class="note" open>
+  <summary>Not supported by SPE v2.x files</summary>
+  <p>This only works for SPE v3.0 files, legacy files don't store this information.</p>
+</details>
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file_path</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A file path</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>info</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A metadata model containing file metadata, backed by <code>pydantic</code></p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 85 "></span><span class="k">def</span><span class="w"> </span><span class="nf">_parse_tracked_metadata</span><span class="p">(</span><span class="n">file_path</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">SPEType</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="linenos" data-linenos=" 86 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract all available per-frame tracking metadata.</span>
+<span class="linenos" data-linenos=" 87 "></span>
+<span class="linenos" data-linenos=" 88 "></span><span class="sd">    This metadata is stored at the end of each frame datablock in an SPE file and varies in length depending on the enabled tracking information in LightField.</span>
+<span class="linenos" data-linenos=" 89 "></span>
+<span class="linenos" data-linenos=" 90 "></span><span class="sd">    Which properties are tracked (and their datatype/bitlength) are extracted from the first [`MetaBlock`][(p).data_models.MetaBlockType] metadata element.</span>
+<span class="linenos" data-linenos=" 91 "></span>
+<span class="linenos" data-linenos=" 92 "></span><span class="sd">    Note: Not supported by SPE v2.x files</span>
+<span class="linenos" data-linenos=" 93 "></span><span class="sd">        This only works for SPE v3.0 files, legacy files don&#39;t store this information.</span>
+<span class="linenos" data-linenos=" 94 "></span>
+<span class="linenos" data-linenos=" 95 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos=" 96 "></span><span class="sd">        file_path (Path|str): A file path</span>
+<span class="linenos" data-linenos=" 97 "></span><span class="sd">        info (SPEType): A metadata model containing file metadata, backed by `pydantic`</span>
+<span class="linenos" data-linenos=" 98 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos=" 99 "></span>    <span class="n">file_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">file_path</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">else</span> <span class="n">file_path</span>
+<span class="linenos" data-linenos="100 "></span>    <span class="n">block_offset</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span><span class="n">r</span><span class="o">.</span><span class="n">stride</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">ROIs</span><span class="p">])</span>
+<span class="linenos" data-linenos="101 "></span>    <span class="n">tracked_fields</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+<span class="linenos" data-linenos="102 "></span>        <span class="nb">set</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">MetaFormat</span><span class="o">.</span><span class="n">MetaBlock</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">field_order</span><span class="p">)</span> <span class="o">&amp;</span> <span class="n">info</span><span class="o">.</span><span class="n">MetaFormat</span><span class="o">.</span><span class="n">MetaBlock</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">model_fields_set</span><span class="p">,</span>
+<span class="linenos" data-linenos="103 "></span>        <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">info</span><span class="o">.</span><span class="n">MetaFormat</span><span class="o">.</span><span class="n">MetaBlock</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">field_order</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+<span class="linenos" data-linenos="104 "></span>    <span class="p">)</span>
+<span class="linenos" data-linenos="105 "></span>    <span class="n">field_offset</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="linenos" data-linenos="106 "></span>    <span class="n">tracked</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos" data-linenos="107 "></span>    <span class="k">with</span> <span class="n">file_path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+<span class="linenos" data-linenos="108 "></span>        <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">tracked_fields</span><span class="p">:</span>
+<span class="linenos" data-linenos="109 "></span>            <span class="n">field_model</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">MetaFormat</span><span class="o">.</span><span class="n">MetaBlock</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">field</span><span class="p">)</span>
+<span class="linenos" data-linenos="110 "></span>            <span class="n">dtype</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">field_model</span><span class="o">.</span><span class="n">type</span><span class="p">)</span>
+<span class="linenos" data-linenos="111 "></span>            <span class="n">resolution</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">field_model</span><span class="p">,</span> <span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="linenos" data-linenos="112 "></span>            <span class="n">offsets</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span>
+<span class="linenos" data-linenos="113 "></span>                <span class="n">start</span><span class="o">=</span><span class="n">HEADERSIZE</span> <span class="o">+</span> <span class="n">block_offset</span> <span class="o">+</span> <span class="n">field_offset</span><span class="p">,</span>
+<span class="linenos" data-linenos="114 "></span>                <span class="n">stop</span><span class="o">=</span><span class="n">HEADERSIZE</span> <span class="o">+</span> <span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">stride</span> <span class="o">*</span> <span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">,</span>
+<span class="linenos" data-linenos="115 "></span>                <span class="n">step</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">stride</span><span class="p">,</span>
+<span class="linenos" data-linenos="116 "></span>                <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span>
+<span class="linenos" data-linenos="117 "></span>            <span class="p">)</span>
+<span class="linenos" data-linenos="118 "></span>            <span class="n">b</span> <span class="o">=</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span>
+<span class="linenos" data-linenos="119 "></span>            <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
+<span class="linenos" data-linenos="120 "></span>                <span class="n">fo</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+<span class="linenos" data-linenos="121 "></span>                <span class="n">b</span> <span class="o">+=</span> <span class="n">fo</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span><span class="p">)</span>
+<span class="linenos" data-linenos="122 "></span>            <span class="n">tracked</span><span class="p">[</span><span class="n">field</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span> <span class="o">/</span> <span class="n">resolution</span>
+<span class="linenos" data-linenos="123 "></span>            <span class="n">field_offset</span> <span class="o">+=</span> <span class="n">dtype</span><span class="o">.</span><span class="n">itemsize</span>
+<span class="linenos" data-linenos="124 "></span>    <span class="k">return</span> <span class="n">tracked</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing._spe_metadata_from_buffer" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">_spe_metadata_from_buffer</span>
+
+
+<a href="#spexread.parsing._spe_metadata_from_buffer" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">_spe_metadata_from_buffer</span><span class="p">(</span><span class="n">buff</span><span class="p">:</span> <span class="n"><span title="typing.BinaryIO">BinaryIO</span></span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve header and/or footer metadata from an opened file handle.</p>
+<p>Low-level method for <a class="autorefs autorefs-internal" title="            parse_spe_metadata" href="#spexread.parsing.parse_spe_metadata">parse_spe_metadata</a> for already opened file objects.</p>
+<p>When using <code>strict=True</code>, some fields from the binary header are checked to have certain values.
+This serves as an early-warning for files that may be corrupt, or maybe not supported.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>buff</code>
+            </td>
+            <td>
+                  <code><span title="typing.BinaryIO">BinaryIO</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A file-handle or buffer opened in binary mode.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strict</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A flag to force validation of the file by checking some fields in the binary header.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>SPEType</code></td>            <td>
+                  <code><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A hierarchical model of the metadata.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="127 "></span><span class="k">def</span><span class="w"> </span><span class="nf">_spe_metadata_from_buffer</span><span class="p">(</span><span class="n">buff</span><span class="p">:</span> <span class="n">BinaryIO</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SPEType</span><span class="p">:</span>
+<span class="linenos" data-linenos="128 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve header and/or footer metadata from an opened file handle.</span>
+<span class="linenos" data-linenos="129 "></span>
+<span class="linenos" data-linenos="130 "></span><span class="sd">    Low-level method for [parse_spe_metadata][..] for already opened file objects.</span>
+<span class="linenos" data-linenos="131 "></span>
+<span class="linenos" data-linenos="132 "></span><span class="sd">    When using `strict=True`, some fields from the binary header are checked to have certain values.</span>
+<span class="linenos" data-linenos="133 "></span><span class="sd">    This serves as an early-warning for files that may be corrupt, or maybe not supported.</span>
+<span class="linenos" data-linenos="134 "></span>
+<span class="linenos" data-linenos="135 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos="136 "></span><span class="sd">        buff (BinaryIO):    A file-handle or buffer opened in binary mode.</span>
+<span class="linenos" data-linenos="137 "></span><span class="sd">        strict (bool):      A flag to force validation of the file by checking some fields in the binary header.</span>
+<span class="linenos" data-linenos="138 "></span>
+<span class="linenos" data-linenos="139 "></span><span class="sd">    Returns:</span>
+<span class="linenos" data-linenos="140 "></span><span class="sd">        SPEType:            A hierarchical model of the metadata.</span>
+<span class="linenos" data-linenos="141 "></span>
+<span class="linenos" data-linenos="142 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="143 "></span>    <span class="n">header</span> <span class="o">=</span> <span class="n">SPEInfoHeader</span><span class="p">()</span>
+<span class="linenos" data-linenos="144 "></span>    <span class="n">buff</span><span class="o">.</span><span class="n">readinto</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+<span class="linenos" data-linenos="145 "></span>    <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+<span class="linenos" data-linenos="146 "></span>        <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">correct</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">([</span><span class="s2">&quot;WinView_id&quot;</span><span class="p">,</span> <span class="s2">&quot;lastvalue&quot;</span><span class="p">,</span> <span class="s2">&quot;lnoscan&quot;</span><span class="p">],</span> <span class="p">[</span><span class="n">WINVIEW_ID</span><span class="p">,</span> <span class="n">LASTVALUE</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]):</span>  <span class="c1"># noqa: B905</span>
+<span class="linenos" data-linenos="147 "></span>            <span class="n">actual</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">header</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span>
+<span class="linenos" data-linenos="148 "></span>            <span class="k">if</span> <span class="n">actual</span> <span class="o">!=</span> <span class="n">correct</span><span class="p">:</span>
+<span class="linenos" data-linenos="149 "></span>                <span class="k">raise</span> <span class="n">SPEValidationError</span><span class="p">(</span>
+<span class="linenos" data-linenos="150 "></span>                    <span class="sa">f</span><span class="s2">&quot;Error validating file header for </span><span class="si">{</span><span class="n">attr</span><span class="si">}</span><span class="s2">, expected </span><span class="si">{</span><span class="n">correct</span><span class="si">}</span><span class="s2">, but got </span><span class="si">{</span><span class="n">actual</span><span class="si">}</span><span class="s2">. Try reading this file with `strict` set to `False`.&quot;</span>
+<span class="linenos" data-linenos="151 "></span>                <span class="p">)</span>
+<span class="linenos" data-linenos="152 "></span>    <span class="n">metadata</span> <span class="o">=</span> <span class="p">(</span>
+<span class="linenos" data-linenos="153 "></span>        <span class="n">SPEType</span><span class="o">.</span><span class="n">from_xml</span><span class="p">(</span><span class="n">_parse_xml_footer</span><span class="p">(</span><span class="n">buff</span><span class="p">,</span> <span class="n">header</span><span class="o">.</span><span class="n">XMLOffset</span><span class="p">))</span>
+<span class="linenos" data-linenos="154 "></span>        <span class="k">if</span> <span class="n">header</span><span class="o">.</span><span class="n">file_header_ver</span> <span class="o">&gt;=</span> <span class="mi">3</span>
+<span class="linenos" data-linenos="155 "></span>        <span class="k">else</span> <span class="n">SPEType</span><span class="o">.</span><span class="n">from_struct</span><span class="p">(</span><span class="n">header</span><span class="p">)</span>
+<span class="linenos" data-linenos="156 "></span>    <span class="p">)</span>
+<span class="linenos" data-linenos="157 "></span>    <span class="k">return</span> <span class="n">metadata</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing.parse_spe_metadata" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">parse_spe_metadata</span>
+
+
+<a href="#spexread.parsing.parse_spe_metadata" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">parse_spe_metadata</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Retrieve header and/or footer metadata for processing <code>*.SPE</code> files.</p>
+<p>All SPE files start with a 4100 byte header, which contains the offset to the binary data blob as well as optional further metadata, depending on the file version.</p>
+<p>For SPE v3.0 files, further metadata is extracted from the XML footer, while for older formats it is extracted from the header struct.</p>
+<p>In both cases a <a class="autorefs autorefs-internal" title="            SPEType" href="../data_models/#spexread.data_models.SPEType"><code>SPEType</code></a> data model (backed by <a href="https://docs.pydantic.dev">pydantic</a> for validation and serialization) is returned.</p>
+<p>This <code>SPEType</code> contains most relevant metadata and the required information to parse the binary data blob to extract per-ROI and per-frame data and associated (optional) per-frame metadata.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>f</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A file path.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strict</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Force strict parsing, meaning some validity checks are performed, default=False.</p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>SPEType</code></td>            <td>
+                  <code><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>pydantic</code> model of metadata contained in the header and footer of the file.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="note" open>
+  <summary>Note</summary>
+  <p>This is a convencience function to read from a file, all actual reading happens by the low-level <a class="autorefs autorefs-internal" title="            _spe_metadata_from_buffer" href="#spexread.parsing._spe_metadata_from_buffer">_spe_metadata_from_buffer</a> function from an opened file object.</p>
+</details>
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="160 "></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_spe_metadata</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SPEType</span><span class="p">:</span>
+<span class="linenos" data-linenos="161 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve header and/or footer metadata for processing `*.SPE` files.</span>
+<span class="linenos" data-linenos="162 "></span>
+<span class="linenos" data-linenos="163 "></span><span class="sd">    All SPE files start with a 4100 byte header, which contains the offset to the binary data blob as well as optional further metadata, depending on the file version.</span>
+<span class="linenos" data-linenos="164 "></span>
+<span class="linenos" data-linenos="165 "></span><span class="sd">    For SPE v3.0 files, further metadata is extracted from the XML footer, while for older formats it is extracted from the header struct.</span>
+<span class="linenos" data-linenos="166 "></span>
+<span class="linenos" data-linenos="167 "></span><span class="sd">    In both cases a [`SPEType`][spexread.data_models.SPEType] data model (backed by [pydantic](https://docs.pydantic.dev) for validation and serialization) is returned.</span>
+<span class="linenos" data-linenos="168 "></span>
+<span class="linenos" data-linenos="169 "></span><span class="sd">    This `SPEType` contains most relevant metadata and the required information to parse the binary data blob to extract per-ROI and per-frame data and associated (optional) per-frame metadata.</span>
+<span class="linenos" data-linenos="170 "></span>
+<span class="linenos" data-linenos="171 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos="172 "></span><span class="sd">        f (Path|str): A file path.</span>
+<span class="linenos" data-linenos="173 "></span><span class="sd">        strict (bool, optional): Force strict parsing, meaning some validity checks are performed, default=False.</span>
+<span class="linenos" data-linenos="174 "></span>
+<span class="linenos" data-linenos="175 "></span><span class="sd">    Returns:</span>
+<span class="linenos" data-linenos="176 "></span><span class="sd">        SPEType                     : A `pydantic` model of metadata contained in the header and footer of the file.</span>
+<span class="linenos" data-linenos="177 "></span>
+<span class="linenos" data-linenos="178 "></span><span class="sd">    Note:</span>
+<span class="linenos" data-linenos="179 "></span><span class="sd">        This is a convencience function to read from a file, all actual reading happens by the low-level [_spe_metadata_from_buffer][..] function from an opened file object.</span>
+<span class="linenos" data-linenos="180 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="181 "></span>    <span class="n">f</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<span class="linenos" data-linenos="182 "></span>    <span class="k">with</span> <span class="n">f</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+<span class="linenos" data-linenos="183 "></span>        <span class="n">metadata</span> <span class="o">=</span> <span class="n">_spe_metadata_from_buffer</span><span class="p">(</span><span class="n">fo</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
+<span class="linenos" data-linenos="184 "></span>    <span class="k">return</span> <span class="n">metadata</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing.parse_spe_data" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">parse_spe_data</span>
+
+
+<a href="#spexread.parsing.parse_spe_data" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">parse_spe_data</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n"><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></span><span class="p">,</span> <span class="n">with_calibration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="xarray.DataArray" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray">DataArray</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Parse the data contents of an <code>*.SPE</code> file using the metadata from the header and/or footer.</p>
+<p>Will return a list of <code>DataArray</code>, with each element corresponding to a Region of Interest (ROI).</p>
+<p>When per-frame metadata blocks are encountered (based on <code>SPEType.MetaFormat.MetaBlock</code>) these will be parsed as additional coordinates, containing e.g. the frame number, gate delay or exposure time.</p>
+<p>In case <code>with_calibration=True</code>, the wavelenght calibration (if known) will be extracted from the file and added to each DataArray.</p>
+<p>In doing so, we attempt to account for differences in binning and a potential change of orientation of the sensor w.r.t. when the calibration was performed.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>f</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A file path</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>info</code>
+            </td>
+            <td>
+                  <code><a class="autorefs autorefs-internal" title="            SPEType (spexread.data_models.SPEType)" href="../data_models/#spexread.data_models.SPEType">SPEType</a></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A metadata model containing file metadata, backed by <code>pydantic</code></p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="187 "></span><span class="k">def</span><span class="w"> </span><span class="nf">parse_spe_data</span><span class="p">(</span><span class="n">f</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">info</span><span class="p">:</span> <span class="n">SPEType</span><span class="p">,</span> <span class="n">with_calibration</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]:</span>
+<span class="linenos" data-linenos="188 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the data contents of an `*.SPE` file using the metadata from the header and/or footer.</span>
+<span class="linenos" data-linenos="189 "></span>
+<span class="linenos" data-linenos="190 "></span><span class="sd">    Will return a list of `DataArray`, with each element corresponding to a Region of Interest (ROI).</span>
+<span class="linenos" data-linenos="191 "></span>
+<span class="linenos" data-linenos="192 "></span><span class="sd">    When per-frame metadata blocks are encountered (based on `SPEType.MetaFormat.MetaBlock`) these will be parsed as additional coordinates, containing e.g. the frame number, gate delay or exposure time.</span>
+<span class="linenos" data-linenos="193 "></span>
+<span class="linenos" data-linenos="194 "></span><span class="sd">    In case `with_calibration=True`, the wavelenght calibration (if known) will be extracted from the file and added to each DataArray.</span>
+<span class="linenos" data-linenos="195 "></span>
+<span class="linenos" data-linenos="196 "></span><span class="sd">    In doing so, we attempt to account for differences in binning and a potential change of orientation of the sensor w.r.t. when the calibration was performed.</span>
+<span class="linenos" data-linenos="197 "></span>
+<span class="linenos" data-linenos="198 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos="199 "></span><span class="sd">        f (Path): A file path</span>
+<span class="linenos" data-linenos="200 "></span><span class="sd">        info (SPEType): A metadata model containing file metadata, backed by `pydantic`</span>
+<span class="linenos" data-linenos="201 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="202 "></span>    <span class="n">data_arrays</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="linenos" data-linenos="203 "></span>
+<span class="linenos" data-linenos="204 "></span>    <span class="n">orient_calib</span> <span class="o">=</span> <span class="n">parse_orientation</span><span class="p">(</span>
+<span class="linenos" data-linenos="205 "></span>        <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span><span class="o">.</span><span class="n">orientation</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;Normal&quot;</span>
+<span class="linenos" data-linenos="206 "></span>    <span class="p">)</span>
+<span class="linenos" data-linenos="207 "></span>    <span class="n">calib_order</span> <span class="o">=</span> <span class="n">apply_transformations</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">orient_calib</span><span class="p">)</span>  <span class="c1"># assume 0th index is calibration axis</span>
+<span class="linenos" data-linenos="208 "></span>    <span class="n">orient_sensor</span> <span class="o">=</span> <span class="n">parse_orientation</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">SensorInformation</span><span class="o">.</span><span class="n">orientation</span><span class="p">)</span>
+<span class="linenos" data-linenos="209 "></span>    <span class="c1"># Compute transformation to map calibration to current orientation</span>
+<span class="linenos" data-linenos="210 "></span>    <span class="n">transform</span> <span class="o">=</span> <span class="n">transformation_mapping</span><span class="p">(</span><span class="n">orient_calib</span><span class="p">,</span> <span class="n">orient_sensor</span><span class="p">)</span>
+<span class="linenos" data-linenos="211 "></span>    <span class="n">dim_order</span> <span class="o">=</span> <span class="n">apply_transformations</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">transform</span><span class="p">)</span>  <span class="c1"># Flipped, default order (&#39;frame&#39;, &#39;y&#39;,&#39;x&#39;)</span>
+<span class="linenos" data-linenos="212 "></span>    <span class="n">tracking_data</span> <span class="o">=</span> <span class="n">_parse_tracked_metadata</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span> <span class="k">if</span> <span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">metaformat_index</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">{}</span>
+<span class="linenos" data-linenos="213 "></span>
+<span class="linenos" data-linenos="214 "></span>    <span class="k">for</span> <span class="n">roi_idx</span><span class="p">,</span> <span class="n">roi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">ROIs</span><span class="p">):</span>
+<span class="linenos" data-linenos="215 "></span>        <span class="n">data</span> <span class="o">=</span> <span class="n">_parse_ROI</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">roi_idx</span><span class="p">)</span>
+<span class="linenos" data-linenos="216 "></span>        <span class="k">if</span> <span class="n">roi_idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">SensorMapping</span><span class="p">):</span>
+<span class="linenos" data-linenos="217 "></span>            <span class="n">roi_map</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">SensorMapping</span><span class="p">[</span><span class="n">roi_idx</span><span class="p">]</span>
+<span class="linenos" data-linenos="218 "></span>            <span class="n">coord_order</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+<span class="linenos" data-linenos="219 "></span>                <span class="nb">zip</span><span class="p">(</span>
+<span class="linenos" data-linenos="220 "></span>                    <span class="n">dim_order</span><span class="p">,</span>
+<span class="linenos" data-linenos="221 "></span>                    <span class="p">[</span>
+<span class="linenos" data-linenos="222 "></span>                        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">roi_map</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">y</span> <span class="o">+</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">yBin</span><span class="p">)</span> <span class="o">+</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">yBin</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+<span class="linenos" data-linenos="223 "></span>                        <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">roi_map</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">x</span> <span class="o">+</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">width</span><span class="p">,</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">xBin</span><span class="p">)</span> <span class="o">+</span> <span class="n">roi_map</span><span class="o">.</span><span class="n">xBin</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+<span class="linenos" data-linenos="224 "></span>                    <span class="p">],</span>
+<span class="linenos" data-linenos="225 "></span>                    <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="linenos" data-linenos="226 "></span>                <span class="p">)</span>
+<span class="linenos" data-linenos="227 "></span>            <span class="p">)</span>
+<span class="linenos" data-linenos="228 "></span>        <span class="k">else</span><span class="p">:</span>
+<span class="linenos" data-linenos="229 "></span>            <span class="n">coord_order</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">dim_order</span><span class="p">,</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">height</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">width</span><span class="p">)],</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="linenos" data-linenos="230 "></span>
+<span class="linenos" data-linenos="231 "></span>        <span class="n">roi_array</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+<span class="linenos" data-linenos="232 "></span>            <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">height</span><span class="p">,</span> <span class="n">roi</span><span class="o">.</span><span class="n">width</span><span class="p">),</span>
+<span class="linenos" data-linenos="233 "></span>            <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;frame&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">dim_order</span><span class="p">),</span>
+<span class="linenos" data-linenos="234 "></span>            <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+<span class="linenos" data-linenos="235 "></span>                <span class="s2">&quot;frame&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">count</span><span class="p">),</span>
+<span class="linenos" data-linenos="236 "></span>                <span class="o">**</span><span class="n">coord_order</span><span class="p">,</span>
+<span class="linenos" data-linenos="237 "></span>            <span class="p">},</span>
+<span class="linenos" data-linenos="238 "></span>            <span class="n">attrs</span><span class="o">=</span><span class="n">info</span><span class="o">.</span><span class="n">FrameInfo</span><span class="o">.</span><span class="n">ROIs</span><span class="p">[</span><span class="n">roi_idx</span><span class="p">]</span><span class="o">.</span><span class="n">model_dump</span><span class="p">(),</span>
+<span class="linenos" data-linenos="239 "></span>            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;ROI </span><span class="si">{</span><span class="n">roi_idx</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="linenos" data-linenos="240 "></span>        <span class="p">)</span>
+<span class="linenos" data-linenos="241 "></span>        <span class="n">roi_array</span> <span class="o">=</span> <span class="n">roi_array</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="p">(</span><span class="s2">&quot;frame&quot;</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">tracking_data</span><span class="o">.</span><span class="n">items</span><span class="p">()})</span>
+<span class="linenos" data-linenos="242 "></span>        <span class="k">if</span> <span class="n">with_calibration</span><span class="p">:</span>
+<span class="linenos" data-linenos="243 "></span>            <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="244 "></span>                <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">wl</span><span class="p">[</span><span class="nb">getattr</span><span class="p">(</span><span class="n">roi_array</span><span class="p">,</span> <span class="n">calib_order</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+<span class="linenos" data-linenos="245 "></span>            <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+<span class="linenos" data-linenos="246 "></span>                <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span>
+<span class="linenos" data-linenos="247 "></span>                    <span class="nb">getattr</span><span class="p">(</span><span class="n">roi_array</span><span class="p">,</span> <span class="n">calib_order</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span><span class="o">.</span><span class="n">coefficients</span>
+<span class="linenos" data-linenos="248 "></span>                <span class="p">)</span>
+<span class="linenos" data-linenos="249 "></span>            <span class="n">roi_array</span> <span class="o">=</span> <span class="n">roi_array</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="p">(</span><span class="n">calib_order</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">calib_coords</span><span class="p">))</span>
+<span class="linenos" data-linenos="250 "></span>        <span class="n">data_arrays</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roi_array</span><span class="p">)</span>
+<span class="linenos" data-linenos="251 "></span>    <span class="k">return</span> <span class="n">data_arrays</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="spexread.parsing.read_spe_file" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-function"></code>            <span class="doc doc-object-name doc-function-name">read_spe_file</span>
+
+
+<a href="#spexread.parsing.read_spe_file" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">read_spe_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n"><span title="pathlib.Path">Path</span></span> <span class="o">|</span> <span class="n"><span title="str">str</span></span><span class="p">,</span> <span class="n">as_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="n"><span title="bool">bool</span></span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n"><a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a></span> <span class="o">|</span> <span class="n"><span title="list">list</span></span><span class="p">[</span><span class="n"><a class="autorefs autorefs-external" title="xarray.DataArray" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray">DataArray</a></span><span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Read an SPE file including metadata from a file path.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>file</code>
+            </td>
+            <td>
+                  <code><span title="pathlib.Path">Path</span> | <span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A file path</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>as_dataset</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flag to return either an <code>xarray.Dataset</code> (True) or a list of <code>xarray.DataArray</code> (False). Default: <code>True</code></p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>strict</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Flag to perform validation check on the file using the binary metadata header, potentially detecting invalid/unsupported files. Default: <code>False</code></p>
+              </div>
+            </td>
+            <td>
+                  <code>False</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><a class="autorefs autorefs-external" title="xarray.Dataset" href="https://docs.xarray.dev/en/stable/generated/xarray.Dataset.html#xarray.Dataset">Dataset</a> | <span title="list">list</span>[<a class="autorefs autorefs-external" title="xarray.DataArray" href="https://docs.xarray.dev/en/stable/generated/xarray.DataArray.html#xarray.DataArray">DataArray</a>]</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>The data per-ROI, as either a joined <code>xarray.Dataset</code>, or a list of <code>xarray.DataArrays</code></p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>For more info, refer to the docs for <a class="autorefs autorefs-internal" title="            parse_spe_metadata" href="#spexread.parsing.parse_spe_metadata"><code>parse_spe_metadata</code></a> and <a class="autorefs autorefs-internal" title="            parse_spe_data" href="#spexread.parsing.parse_spe_data"><code>parse_spe_data</code></a>.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/parsing.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="254 "></span><span class="k">def</span><span class="w"> </span><span class="nf">read_spe_file</span><span class="p">(</span><span class="n">file</span><span class="p">:</span> <span class="n">Path</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">as_dataset</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">]:</span>
+<span class="linenos" data-linenos="255 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read an SPE file including metadata from a file path.</span>
+<span class="linenos" data-linenos="256 "></span>
+<span class="linenos" data-linenos="257 "></span><span class="sd">    Args:</span>
+<span class="linenos" data-linenos="258 "></span><span class="sd">        file (Path|str):        A file path</span>
+<span class="linenos" data-linenos="259 "></span><span class="sd">        as_dataset (bool):      Flag to return either an `xarray.Dataset` (True) or a list of `xarray.DataArray` (False). Default: `True`</span>
+<span class="linenos" data-linenos="260 "></span><span class="sd">        strict (bool):          Flag to perform validation check on the file using the binary metadata header, potentially detecting invalid/unsupported files. Default: `False`</span>
+<span class="linenos" data-linenos="261 "></span>
+<span class="linenos" data-linenos="262 "></span><span class="sd">    Returns:</span>
+<span class="linenos" data-linenos="263 "></span><span class="sd">        The data per-ROI, as either a joined `xarray.Dataset`, or a list of `xarray.DataArrays`</span>
+<span class="linenos" data-linenos="264 "></span>
+<span class="linenos" data-linenos="265 "></span><span class="sd">    For more info, refer to the docs for [`parse_spe_metadata`][(p).parsing.parse_spe_metadata] and [`parse_spe_data`][(p).parsing.parse_spe_data].</span>
+<span class="linenos" data-linenos="266 "></span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos" data-linenos="267 "></span>    <span class="n">file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+<span class="linenos" data-linenos="268 "></span>    <span class="n">info</span> <span class="o">=</span> <span class="n">parse_spe_metadata</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
+<span class="linenos" data-linenos="269 "></span>
+<span class="linenos" data-linenos="270 "></span>    <span class="n">data_list</span> <span class="o">=</span> <span class="n">parse_spe_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">with_calibration</span><span class="o">=</span><span class="ow">not</span> <span class="n">as_dataset</span><span class="p">)</span>
+<span class="linenos" data-linenos="271 "></span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">as_dataset</span><span class="p">:</span>
+<span class="linenos" data-linenos="272 "></span>        <span class="k">return</span> <span class="n">data_list</span>
+<span class="linenos" data-linenos="273 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_by_coords</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="linenos" data-linenos="274 "></span>    <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">map_calibration_to_current_coordinate_system</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<span class="linenos" data-linenos="275 "></span>    <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="276 "></span>        <span class="c1"># coerce to numpy array to avoid ambiguity for xarray</span>
+<span class="linenos" data-linenos="277 "></span>        <span class="n">_calibrated_pixels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<span class="linenos" data-linenos="278 "></span>        <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">calib_coords</span><span class="p">[</span><span class="n">_calibrated_pixels</span><span class="p">]</span>  <span class="c1"># slice calibration array with current pixels</span>
+<span class="linenos" data-linenos="279 "></span>    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+<span class="linenos" data-linenos="280 "></span>        <span class="c1"># patch for stitched spectra that extend beyond sensor dimension</span>
+<span class="linenos" data-linenos="281 "></span>        <span class="c1"># TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration</span>
+<span class="linenos" data-linenos="282 "></span>        <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="linenos" data-linenos="283 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="p">(</span><span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">))</span>
+<span class="linenos" data-linenos="284 "></span>    <span class="n">data</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+<span class="linenos" data-linenos="285 "></span>    <span class="k">return</span> <span class="n">data</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../data_models/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code class=&#34;doc-symbol doc-symbol-nav doc-symbol-module&#34;&gt;&lt;/code&gt;data_models">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>data_models
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../structdef/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code class=&#34;doc-symbol doc-symbol-nav doc-symbol-module&#34;&gt;&lt;/code&gt;structdef">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>structdef
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Antoine Salden 2025-present
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AntoineTUE/spexread" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.tabs.sticky", "navigation.footer", "toc.follow", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../assets/javascript/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../assets/javascript/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>

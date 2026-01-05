@@ -1,0 +1,2314 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="A module for reading Princeton Instruments SPE files (version 2.x and 3.0) captured by WinSpec or LightField">
+      
+      
+        <meta name="author" content="Antoine Salden">
+      
+      
+        <link rel="canonical" href="https://github.com/AntoineTUE/spexread/latest/reference/spexread/structdef/">
+      
+      
+        <link rel="prev" href="../parsing/">
+      
+      
+        <link rel="next" href="../transformation/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>structdef - spexread</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#spexread.structdef" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="spexread" class="md-header__button md-logo" aria-label="spexread" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 5h2v14H1zm4 0h2v14H5zm17 0H10a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1M11 17l2.5-3.15L15.29 16l2.5-3.22L21 17z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            spexread
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              structdef
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AntoineTUE/spexread/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spexread
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="spexread" class="md-nav__button md-logo" aria-label="spexread" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1 5h2v14H1zm4 0h2v14H5zm17 0H10a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1M11 17l2.5-3.15L15.29 16l2.5-3.22L21 17z"/></svg>
+
+    </a>
+    spexread
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AntoineTUE/spexread/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    spexread
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../File_info/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SPE file structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_1" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>spexread
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_1" id="__nav_4_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_1">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>spexread
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data_models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>data_models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../parsing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>parsing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>structdef
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>structdef
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;EnumDataType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" EnumDataType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.float32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;float32
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int32
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.float64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;float64
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint32
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;EnumOrientation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" EnumOrientation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Normal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Normal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Rotate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Rotate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Horizontal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Horizontal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Vertical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Vertical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEStructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEStructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SPEStructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEStructure.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ROIInfo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ROIInfo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CalibrationStruct
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" CalibrationStruct">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEInfoHeader
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SPEInfoHeader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transformation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>transformation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;EnumDataType
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" EnumDataType">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.float32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;float32
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int32
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint16
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.float64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;float64
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.int8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;int8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint8
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumDataType.uint32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;uint32
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;EnumOrientation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" EnumOrientation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Normal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Normal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Rotate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Rotate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Horizontal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Horizontal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.EnumOrientation.Vertical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;Vertical
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEStructure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEStructure
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SPEStructure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEStructure.to_dict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;to_dict
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;ROIInfo
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" ROIInfo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.ROIInfo._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;CalibrationStruct
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" CalibrationStruct">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.CalibrationStruct._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;SPEInfoHeader
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label=" SPEInfoHeader">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader._pack_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_pack_
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#spexread.structdef.SPEInfoHeader._fields_" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;_fields_
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<div class="doc doc-object doc-module">
+
+
+
+<h1 id="spexread.structdef" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-module"></code>            <span class="doc doc-object-name doc-module-name">spexread.structdef</span>
+
+
+<a href="#spexread.structdef" class="headerlink" title="Permanent link">&para;</a></h1>
+
+    <div class="doc doc-contents first">
+
+        <p>Definitions of C structures in the SPE file header.</p>
+<p>The format of these structures is based on the legacy SPE v2.5 header format specification (from 2004/03/23).</p>
+<p>Note that even older header formats (namely v1.43 and v1.6) will be compatible for the most part as they use the same 4100 byte header size, but will have occasional different fields.</p>
+<p>As such, reading data is backwards compatible, but the available metadata should not be considered fully compatible.</p>
+<p>In case you really need support for these ancient formats, refer to the WinView/WinSpec manuals for changes.</p>
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.EnumDataType" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">EnumDataType</span>
+
+
+<a href="#spexread.structdef.EnumDataType" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Enum for data types of recorded data.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.float32" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">float32</span>
+
+
+<a href="#spexread.structdef.EnumDataType.float32" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">float32</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.int32" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">int32</span>
+
+
+<a href="#spexread.structdef.EnumDataType.int32" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">int32</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.int16" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">int16</span>
+
+
+<a href="#spexread.structdef.EnumDataType.int16" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">int16</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.uint16" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">uint16</span>
+
+
+<a href="#spexread.structdef.EnumDataType.uint16" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">uint16</span> <span class="o">=</span> <span class="mi">3</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.float64" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">float64</span>
+
+
+<a href="#spexread.structdef.EnumDataType.float64" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">float64</span> <span class="o">=</span> <span class="mi">5</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.int8" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">int8</span>
+
+
+<a href="#spexread.structdef.EnumDataType.int8" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">int8</span> <span class="o">=</span> <span class="mi">6</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.uint8" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">uint8</span>
+
+
+<a href="#spexread.structdef.EnumDataType.uint8" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">uint8</span> <span class="o">=</span> <span class="mi">7</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumDataType.uint32" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">uint32</span>
+
+
+<a href="#spexread.structdef.EnumDataType.uint32" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">uint32</span> <span class="o">=</span> <span class="mi">8</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.EnumOrientation" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">EnumOrientation</span>
+
+
+<a href="#spexread.structdef.EnumOrientation" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Enum for camera sensor orientation.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumOrientation.Normal" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">Normal</span>
+
+
+<a href="#spexread.structdef.EnumOrientation.Normal" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">Normal</span> <span class="o">=</span> <span class="mi">0</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumOrientation.Rotate" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">Rotate</span>
+
+
+<a href="#spexread.structdef.EnumOrientation.Rotate" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">Rotate</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumOrientation.Horizontal" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">Horizontal</span>
+
+
+<a href="#spexread.structdef.EnumOrientation.Horizontal" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">Horizontal</span> <span class="o">=</span> <span class="mi">2</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.EnumOrientation.Vertical" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">Vertical</span>
+
+
+<a href="#spexread.structdef.EnumOrientation.Vertical" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">Vertical</span> <span class="o">=</span> <span class="mi">4</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.SPEStructure" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SPEStructure</span>
+
+
+<a href="#spexread.structdef.SPEStructure" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>A generic class for a C structure that can be converted to a dictionary.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-object doc-function">
+
+
+<h3 id="spexread.structdef.SPEStructure.to_dict" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">to_dict</span>
+
+
+<a href="#spexread.structdef.SPEStructure.to_dict" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">to_dict</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Convert a C structure to a dictionary, applying type coercion for nested data types such as structures and arrays.</p>
+
+
+            <details class="mkdocstrings-source">
+              <summary>Source code in <code>src/spexread/structdef.py</code></summary>
+              <div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 84 "></span><span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="linenos" data-linenos=" 85 "></span><span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert a C structure to a dictionary, applying type coercion for nested data types such as structures and arrays.&quot;&quot;&quot;</span>
+<span class="linenos" data-linenos=" 86 "></span>    <span class="n">content</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="linenos" data-linenos=" 87 "></span>    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fields_</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 88 "></span>        <span class="n">v</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="linenos" data-linenos=" 89 "></span>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">SPEStructure</span><span class="p">):</span>
+<span class="linenos" data-linenos=" 90 "></span>            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+<span class="linenos" data-linenos=" 91 "></span>        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">ctypes</span><span class="o">.</span><span class="n">Array</span><span class="p">):</span>
+<span class="linenos" data-linenos=" 92 "></span>            <span class="n">elemType</span> <span class="o">=</span> <span class="n">k</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">_type_</span>
+<span class="linenos" data-linenos=" 93 "></span>            <span class="k">if</span> <span class="n">elemType</span> <span class="o">==</span> <span class="n">c_char</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 94 "></span>                <span class="n">v</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos" data-linenos=" 95 "></span>            <span class="k">elif</span> <span class="n">elemType</span> <span class="o">==</span> <span class="n">c_byte</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 96 "></span>                <span class="n">v</span> <span class="o">=</span> <span class="nb">bytes</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="linenos" data-linenos=" 97 "></span>            <span class="k">else</span><span class="p">:</span>
+<span class="linenos" data-linenos=" 98 "></span>                <span class="n">v</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="linenos" data-linenos=" 99 "></span>        <span class="n">content</span><span class="p">[</span><span class="n">k</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">v</span>
+<span class="linenos" data-linenos="100 "></span>    <span class="k">return</span> <span class="n">content</span>
+</code></pre></div>
+            </details>
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.ROIInfo" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">ROIInfo</span>
+
+
+<a href="#spexread.structdef.ROIInfo" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Structure containing size, position and binning info about a region of interest.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.ROIInfo._pack_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_pack_</span>
+
+
+<a href="#spexread.structdef.ROIInfo._pack_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_pack_</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.ROIInfo._fields_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_fields_</span>
+
+
+<a href="#spexread.structdef.ROIInfo._fields_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_fields_</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;startx&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;endx&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;groupx&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;starty&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;endy&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;groupy&#39;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">)]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.CalibrationStruct" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">CalibrationStruct</span>
+
+
+<a href="#spexread.structdef.CalibrationStruct" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Structure containing calibration information for a spectrometer.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.CalibrationStruct._pack_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_pack_</span>
+
+
+<a href="#spexread.structdef.CalibrationStruct._pack_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_pack_</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.CalibrationStruct._fields_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_fields_</span>
+
+
+<a href="#spexread.structdef.CalibrationStruct._fields_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;offset&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;factor&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;current_unit&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;reserved1&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;string&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;reserved2&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span> <span class="o">*</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;calib_valid&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;input_unit&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;polynom_unit&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;polynom_order&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;calib_count&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;pixel_position&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span> <span class="o">*</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;calib_value&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span> <span class="o">*</span> <span class="mi">10</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;polynom_coeff&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span> <span class="o">*</span> <span class="mi">6</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;laser_position&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;reserved3&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;new_calib_flag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u8">u8</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;calib_label&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">81</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;expansion&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s8">s8</span></span> <span class="o">*</span> <span class="mi">87</span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="spexread.structdef.SPEInfoHeader" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">SPEInfoHeader</span>
+
+
+<a href="#spexread.structdef.SPEInfoHeader" class="headerlink" title="Permanent link">&para;</a></h2>
+
+
+    <div class="doc doc-contents ">
+
+
+
+        <p>Info header of legacy SPE files (version <code>2.x</code>) packed as a C Struct.</p>
+<p>Defined verbatim according to the <code>SPE 3.0 File Format Specification</code> manual which highlights changes between v3.0 and v2.5.</p>
+<p>This header format is formally defined as the <code>Version 2.5 Header</code> according to the WinSpec manual and should be backwards compatible with previous versions.</p>
+<p>For older SPE file headers (namely v1.43 and v1.6), there will be minor differences since some blocks have been redefined and/or repurposed between versions.</p>
+<p>Support for these ancient versions is not guaranteed.</p>
+
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.SPEInfoHeader._pack_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_pack_</span>
+
+
+<a href="#spexread.structdef.SPEInfoHeader._pack_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_pack_</span> <span class="o">=</span> <span class="mi">1</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-attribute">
+
+
+
+<h3 id="spexread.structdef.SPEInfoHeader._fields_" class="doc doc-heading">
+<code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">_fields_</span>
+
+
+<a href="#spexread.structdef.SPEInfoHeader._fields_" class="headerlink" title="Permanent link">&para;</a></h3>
+<div class="doc-signature highlight"><pre><span></span><code><span class="n">_fields_</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">(</span><span class="s2">&quot;ControllerVersion&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;LogicOutput&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AmpHiCapLowNoise&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;xDimDet&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;mode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;exp_sec&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;VChipXdim&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;VChipYdim&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;yDimDet&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.DATAMAX">DATAMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;VirtualChipFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Spare_1&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_int8">c_int8</span></span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;noscan&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;DetTemperature&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;DetType&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;xdim&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;stdiode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;DelayTime&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ShutterControl&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AbsorbLive&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AbsorpMode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CanDoVirtualChipFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ThresholdMinLive&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ThresholdMinVal&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ThresholdMaxLive&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ThresholdMaxVal&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecAutoSpectroModule&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecCenterWlNm&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGlueFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGlueStartWlNm&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGlueEndWlNm&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGlueMinOvrlpNm&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGlueFinalResNm&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulserType&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CustomChipFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;XPrePixels&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;XPostPixels&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;YPrePixels&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;YPostPixels&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;asynen&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;datatype&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulserMode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulserOnChipAccums&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulserRepeatExp&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u32">u32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseRepWidth&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseRepDelay&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseSeqStartWidth&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseSeqEndWidth&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseSeqStartDelay&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseSeqEndDelay&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseSeqIncMode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PImaxUsed&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PImaxMode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PImaxGain&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;BackGrndApplied&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PImax2nsBrdUsed&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;minblk&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;numminblk&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecMirrorLocation&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecSlitLocation&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CustomTimingFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ExperimentTimeLocal&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.TIMEMAX">TIMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ExperimentTimeUTC&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.TIMEMAX">TIMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ExposUnits&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ADCoffset&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ADCrate&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ADCtype&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ADCresolution&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ADCbitAdjust&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;gain&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Comments&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="p">(</span><span class="mi">5</span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.COMMENTMAX">COMMENTMAX</span></span><span class="p">)),</span>
+    <span class="p">(</span><span class="s2">&quot;geometric&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;xlabel&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.LABELMAX">LABELMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;cleans&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumSkpPerCln&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecMirrorPos&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span> <span class="o">*</span> <span class="mi">2</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecSlitPos&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span> <span class="o">*</span> <span class="mi">4</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AutoCleansActive&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;UseContCleansInst&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AbsorbStripNum&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecSlipPosUnits&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecGrooves&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;srccmp&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ydim&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;scramble&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ContinuousCleansFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ExternalTriggerFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;lnoscan&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s32">s32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;lavgexp&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s32">s32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ReadoutTime&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;TriggeredModeFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;XMLOffset&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u64">u64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NotUsed&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;sw_version&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.FILEVERMAX">FILEVERMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;flatFieldApplied&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Spare_3&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;kin_trig_mode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;dlabel&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.LABELMAX">LABELMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Spare_4&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">436</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseFileName&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.HDRNAMEMAX">HDRNAMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AbsorbFileName&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.HDRNAMEMAX">HDRNAMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumExpRepeats&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u32">u32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumExpAccums&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u32">u32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;YT_Flag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;clkspd_us&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;HWaccumFlag&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;StoreSync&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;BlemishApplied&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CosmicApplied&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CosmicType&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;CosmicThreshold&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumFrames&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s32">s32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;MaxIntensity&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;MinIntensity&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ylabel&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.LABELMAX">LABELMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ShutterType&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;shutterComp&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;readoutMode&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;WindowSize&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;clkspd&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;interface_type&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumROIsInExperiment&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Spare_5&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;controllerNum&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SWmade&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u16">u16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;NumROI&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ROIinfblk&quot;</span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            ROIInfo (spexread.structdef.ROIInfo)" href="#spexread.structdef.ROIInfo">ROIInfo</a></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.ROIMAX">ROIMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;FlatField&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.HDRNAMEMAX">HDRNAMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;background&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.HDRNAMEMAX">HDRNAMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;blemish&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="n"><span title="spexread.structdef.HDRNAMEMAX">HDRNAMEMAX</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;file_header_ver&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.f32">f32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;YT_Info&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">1000</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;WinView_id&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s32">s32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;xcalibration&quot;</span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            CalibrationStruct (spexread.structdef.CalibrationStruct)" href="#spexread.structdef.CalibrationStruct">CalibrationStruct</a></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;ycalibration&quot;</span><span class="p">,</span> <span class="n"><a class="autorefs autorefs-internal" title="            CalibrationStruct (spexread.structdef.CalibrationStruct)" href="#spexread.structdef.CalibrationStruct">CalibrationStruct</a></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Istring&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">40</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;Spare_6&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_char">c_char</span></span> <span class="o">*</span> <span class="mi">25</span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecType&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_byte">c_byte</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;SpecModel&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_byte">c_byte</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseBurstUsed&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_byte">c_byte</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseBurstCount&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.u32">u32</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseBurstPeriod&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseBracketUsed&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_byte">c_byte</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseBracketType&quot;</span><span class="p">,</span> <span class="n"><span title="ctypes.c_byte">c_byte</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseTimeConstFast&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseAmplitudeFast&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseTimeConstSlow&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;PulseAmplitudeSlow&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.d64">d64</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AnalogGain&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AvGainUsed&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;AvGain&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+    <span class="p">(</span><span class="s2">&quot;lastvalue&quot;</span><span class="p">,</span> <span class="n"><span title="spexread.structdef.s16">s16</span></span><span class="p">),</span>
+<span class="p">]</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+    </div>
+
+</div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+  </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../parsing/" class="md-footer__link md-footer__link--prev" aria-label="Previous: &lt;code class=&#34;doc-symbol doc-symbol-nav doc-symbol-module&#34;&gt;&lt;/code&gt;parsing">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>parsing
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../transformation/" class="md-footer__link md-footer__link--next" aria-label="Next: &lt;code class=&#34;doc-symbol doc-symbol-nav doc-symbol-module&#34;&gt;&lt;/code&gt;transformation">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                <code class="doc-symbol doc-symbol-nav doc-symbol-module"></code>transformation
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; Antoine Salden 2025-present
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/AntoineTUE/spexread" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M202.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M496 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.tabs.sticky", "navigation.footer", "toc.follow", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../assets/javascript/mathjax.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../assets/javascript/mermaid.min.js"></script>
+      
+    
+  </body>
+</html>
