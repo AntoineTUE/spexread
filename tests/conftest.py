@@ -2,7 +2,7 @@
 Test configuration for `SPEXRead`
 """
 
-# import pytest
+import pytest
 from pathlib import Path
 import datetime
 from lxml import etree
@@ -10,9 +10,25 @@ from spexread.structdef import SPEInfoHeader, ROIInfo
 import numpy as np
 
 
-# @pytest.fixture(scope="session")
-def xmlfooter():
-    yield etree.fromstring(Path("./footer.xml").read_text())
+@pytest.fixture(scope="session")
+def footer_lightfield_demo_mode():
+    """A footer extracted from a SPE3.0 file using the LightField Demo Camera and Demo Spectrometer features."""
+    yield etree.fromstring(Path("./tests/test_files/footer_demo.xml").read_text())
+
+
+@pytest.fixture(scope="session")
+def footer_step_and_glue():
+    """A footer extracted from a SPE3.0 file that stored step-and-glue data (i.e. stitched spectra)"""
+    yield etree.fromstring(Path("./tests/test_files/footer_step_and_glue.xml").read_text())
+
+
+@pytest.fixture(scope="session")
+def footer_converted_from_v2():
+    """A footer extracted from a SPE3.0 file that was converted from a SPE2.x file.
+
+    Lightfield does not appear to try to preserve much metadata when converting.
+    """
+    yield etree.fromstring(Path("./tests/test_files/footer_converted_from_v2.xml").read_text())
 
 
 # @pytest.fixture

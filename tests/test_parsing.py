@@ -1,13 +1,22 @@
 import pytest
 from hypothesis import given, strategies as st
-from spexread.structdef import SPEInfoHeader, ROIInfo
-from spexread.parsing import parse_spe_metadata, parse_spe_data, read_spe_file, _spe_metadata_from_buffer, _parse_ROI
-from spexread.data_models import SPEType
 import datetime
 import numpy as np
 import io
 from pathlib import Path
 from numpy.testing import assert_allclose
+from io import BytesIO
+
+from spexread.structdef import SPEInfoHeader, ROIInfo
+from spexread.parsing import (
+    parse_spe_metadata,
+    parse_spe_data,
+    read_spe_file,
+    _spe_metadata_from_buffer,
+    _parse_ROI,
+    _parse_xml_footer,
+)
+from spexread.data_models import SPEType
 
 rng = np.random.default_rng()
 
@@ -73,3 +82,33 @@ def test_SPEv2_file(xdim, ydim, xbin, ybin, frames: int, roi_count: int, roi_fli
         assert roi.width == xdim // xbin
         assert roi.height == ydim // ybin
         assert roi.size == xdim // xbin * ydim // ybin * 4
+
+
+def test_parse_xml_footer(footer_lightfield_demo_mode):
+    with Path("./tests/test_files/footer_demo.xml").open("rb") as fo:
+        footer = _parse_xml_footer(fo, offset=0)
+    buff_parsed = BytesIO()
+    buff_lxml = BytesIO()
+    footer.getroottree().write_c14n(buff_parsed)
+    footer_lightfield_demo_mode.getroottree().write_c14n(buff_lxml)
+    assert buff_parsed.getvalue() == buff_lxml.getvalue()
+
+
+def test_parse_xml_footer_step_and_glue(footer_step_and_glue):
+    with Path("./tests/test_files/footer_step_and_glue.xml").open("rb") as fo:
+        footer = _parse_xml_footer(fo, offset=0)
+    buff_parsed = BytesIO()
+    buff_lxml = BytesIO()
+    footer.getroottree().write_c14n(buff_parsed)
+    footer_step_and_glue.getroottree().write_c14n(buff_lxml)
+    assert buff_parsed.getvalue() == buff_lxml.getvalue()
+
+
+def test_parse_xml_footer_converted_from_v2(footer_converted_from_v2):
+    with Path("./tests/test_files/footer_converted_from_v2.xml").open("rb") as fo:
+        footer = _parse_xml_footer(fo, offset=0)
+    buff_parsed = BytesIO()
+    buff_lxml = BytesIO()
+    footer.getroottree().write_c14n(buff_parsed)
+    footer_converted_from_v2.getroottree().write_c14n(buff_lxml)
+    assert buff_parsed.getvalue() == buff_lxml.getvalue()

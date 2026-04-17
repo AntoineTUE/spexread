@@ -1,0 +1,10 @@
+<SpeFormat version="3.0"
+    xmlns="http://www.princetoninstruments.com/spe/2009">
+    <DataFormat>
+        <DataBlock type="Frame" count="1" pixelFormat="MonochromeFloating32" size="18844" stride="18844">
+            <DataBlock type="Region" count="1" width="4711" height="1" size="18844" stride="18844" calibrations="1" /></DataBlock>
+    </DataFormat>
+    <Calibrations>
+        <SensorInformation id="1" orientation="Normal" width="1024" height="127" />
+    </Calibrations>
+</SpeFormat>
