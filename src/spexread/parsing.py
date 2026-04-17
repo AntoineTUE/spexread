@@ -51,7 +51,7 @@ def _parse_xml_footer(buff: "BufferedReader", offset: int) -> etree:
     Because of this, it will only make sense to use this function if you know you are dealing with a file that has an xml footer.
     """
     buff.seek(offset)
-    return etree.fromstring(buff.readline())
+    return etree.fromstringlist(buff.readlines())
 
 
 def _parse_ROI(file: FilePathOrBinaryBuffer, info_header: SPEType, roi_idx: int) -> np.ndarray:
