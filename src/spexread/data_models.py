@@ -32,6 +32,16 @@ dtype_mapping = {"unsigned16": "uint16", "unsigned32": "uint32", "floating32": "
 """Maps SPE 3.0 datatype strings (without default monochrome suffix) to more conventional dtype names that can be understood by `numpy`."""
 
 
+def first_element(elements: list):
+    """Return the first element of a list or `None` if the list is empty.
+
+    Simple helper function to avoid having to put lenght checks on lists everywhere when using xpath.
+
+    xpath will always return a list, which can be empty if no elements matched.
+    """
+    return elements[0] if len(elements) > 0 else None
+
+
 class XMLBaseModel(BaseModel):
     """Base model for representing XML data."""
 
@@ -136,7 +146,7 @@ class FrameType(XMLBaseModel):
     @classmethod
     def from_xml(cls, element) -> "FrameType":
         """Create a `FrameType` model from an XML element."""
-        node = element.getroottree().xpath(f"*/{PRE}:DataBlock[@type='Frame']", namespaces=cls.ns)[0]
+        node = first_element(element.getroottree().xpath(f"*/{PRE}:DataBlock[@type='Frame']", namespaces=cls.ns))
         return FrameType(
             **node.attrib,
             # ROIs=[RegionType(**r.attrib) for r in node.xpath(f"./{PRE}:DataBlock[@type='Region']", namespaces=cls.ns)],
@@ -230,7 +240,7 @@ class MetaBlockType(XMLBaseModel):
     @classmethod
     def from_xml(cls, element, id) -> "MetaBlockType":
         """Create a `MetaBlockType` from an XML element."""
-        node = element.getroottree().xpath(f"/*/*/{PRE}:MetaBlock[@id='{id}']", namespaces=cls.ns)[0]
+        node = first_element(element.getroottree().xpath(f"/*/*/{PRE}:MetaBlock[@id='{id}']", namespaces=cls.ns))
         kwargs = {}
         kwargs["exposure_start"] = TimeTrackType.from_xml_by_attrib(node, "TimeStamp", ("event", "ExposureStarted"))
         kwargs["exposure_end"] = TimeTrackType.from_xml_by_attrib(node, "TimeStamp", ("event", "ExposureEnded"))
@@ -258,11 +268,13 @@ class MetaFormatType(XMLBaseModel):
 
     @classmethod
     def from_xml(cls, element) -> "MetaFormatType":
-        """Create a `MetaFormatType` from an XML element."""
-        nodes = element.getroottree().xpath(f"/*/{PRE}:MetaFormat", namespaces=cls.ns)
-        if len(nodes) < 1:
+        """Create a `MetaFormatType` from an XML element.
+
+        Iterates over all found `MetaBlock` elements to create appropriate [MetaBlockType][..] children.
+        """
+        node = first_element(element.getroottree().xpath(f"/*/{PRE}:MetaFormat", namespaces=cls.ns))
+        if node is None:
             return None
-        node = nodes[0]
         return MetaFormatType(
             MetaBlock=[
                 MetaBlockType.from_xml(elem, i + 1)
@@ -272,8 +284,11 @@ class MetaFormatType(XMLBaseModel):
 
     @classmethod
     def from_struct(cls, cstruct: SPEInfoHeader) -> "MetaFormatType":
-        """Create a `MetaFormatType` model from a C Struct."""
-        return MetaFormatType()  # No tracking metadata is stored in header or binary block for legacy files
+        """Create a `MetaFormatType` model from a C Struct.
+
+        Since no tracking metadata is stored in header or binary block for legacy files, it will be empty.
+        """
+        return MetaFormatType()
 
 
 class SensorType(XMLBaseModel):
@@ -352,12 +367,10 @@ class WavelengthCalibType(XMLBaseModel):
     @classmethod
     def from_xml(cls, element) -> "WavelengthCalibType":
         """Create a `WavelengthCalibType` from an XML element."""
-        xpath = element.getroottree().xpath(f"/*/*/{PRE}:WavelengthMapping", namespaces=cls.ns)
-        if len(xpath) < 1:
+        node = first_element(element.getroottree().xpath(f"//{PRE}:WavelengthMapping", namespaces=cls.ns))
+        if node is None:
             return None
-        else:
-            node = xpath[0]
-        wls = node.xpath("./spe:Wavelength", namespaces=cls.ns)[0].text
+        wls = first_element(node.xpath(f"./{PRE}:Wavelength", namespaces=cls.ns)).text
         return WavelengthCalibType(**node.attrib, wavelength=wls)
 
     @classmethod
@@ -407,7 +420,7 @@ class CalibrationsType(XMLBaseModel):
     @classmethod
     def from_xml(cls, element) -> "CalibrationsType":
         """Create a `CalibrationsType` from an XML element."""
-        node = element.getroottree().xpath(f"/*/{PRE}:Calibrations", namespaces=cls.ns)[0]
+        node = first_element(element.getroottree().xpath(f"/*/{PRE}:Calibrations", namespaces=cls.ns))
         wl_calib = WavelengthCalibType.from_xml(element)
         sensor_info = SensorType(**node.find("SensorInformation", node.nsmap).attrib)
         sensor_mapping = [
@@ -437,7 +450,9 @@ class GeneralInfoType(XMLBaseModel):
     @classmethod
     def from_xml(cls, element):
         """Create a `GeneralInfoType` from an XML element."""
-        node = element.getroottree().xpath(f"./{PRE}:GeneralInformation", namespaces=cls.ns)[0]
+        node = first_element(element.getroottree().xpath(f"./{PRE}:GeneralInformation", namespaces=cls.ns))
+        if node is None:
+            return GeneralInfoType()
         return GeneralInfoType(**node.find("FileInformation", node.nsmap).attrib)
 
     @classmethod
@@ -486,7 +501,7 @@ class SPEType(XMLBaseModel):
 
         It traverses the XML document starting from the root node to build the model.
         """
-        base = root.xpath(f"/{PRE}:SpeFormat", namespaces=cls.ns)[0]
+        base = first_element(root.xpath(f"/{PRE}:SpeFormat", namespaces=cls.ns))
         frame_info = FrameType.from_xml(base)
         kwargs = {}
         kwargs["MetaFormat"] = MetaFormatType.from_xml(base)
