@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="../../assets/logo.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.0">
     
     
       
@@ -760,7 +760,7 @@
 
 
 
-  <div class="doc doc-children">
+<div class="doc doc-children">
 
 
 
@@ -891,23 +891,25 @@
 <span class="linenos" data-linenos="266 "></span><span class="sd">    &quot;&quot;&quot;</span>
 <span class="linenos" data-linenos="267 "></span>    <span class="n">file</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
 <span class="linenos" data-linenos="268 "></span>    <span class="n">info</span> <span class="o">=</span> <span class="n">parse_spe_metadata</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">)</span>
-<span class="linenos" data-linenos="269 "></span>
-<span class="linenos" data-linenos="270 "></span>    <span class="n">data_list</span> <span class="o">=</span> <span class="n">parse_spe_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">with_calibration</span><span class="o">=</span><span class="ow">not</span> <span class="n">as_dataset</span><span class="p">)</span>
-<span class="linenos" data-linenos="271 "></span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">as_dataset</span><span class="p">:</span>
-<span class="linenos" data-linenos="272 "></span>        <span class="k">return</span> <span class="n">data_list</span>
-<span class="linenos" data-linenos="273 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_by_coords</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
-<span class="linenos" data-linenos="274 "></span>    <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">map_calibration_to_current_coordinate_system</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
-<span class="linenos" data-linenos="275 "></span>    <span class="k">try</span><span class="p">:</span>
-<span class="linenos" data-linenos="276 "></span>        <span class="c1"># coerce to numpy array to avoid ambiguity for xarray</span>
-<span class="linenos" data-linenos="277 "></span>        <span class="n">_calibrated_pixels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
-<span class="linenos" data-linenos="278 "></span>        <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">calib_coords</span><span class="p">[</span><span class="n">_calibrated_pixels</span><span class="p">]</span>  <span class="c1"># slice calibration array with current pixels</span>
-<span class="linenos" data-linenos="279 "></span>    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-<span class="linenos" data-linenos="280 "></span>        <span class="c1"># patch for stitched spectra that extend beyond sensor dimension</span>
-<span class="linenos" data-linenos="281 "></span>        <span class="c1"># TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration</span>
-<span class="linenos" data-linenos="282 "></span>        <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span>
-<span class="linenos" data-linenos="283 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="p">(</span><span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">))</span>
-<span class="linenos" data-linenos="284 "></span>    <span class="n">data</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
-<span class="linenos" data-linenos="285 "></span>    <span class="k">return</span> <span class="n">data</span>
+<span class="linenos" data-linenos="269 "></span>    <span class="n">has_calibration</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+<span class="linenos" data-linenos="270 "></span>
+<span class="linenos" data-linenos="271 "></span>    <span class="n">data_list</span> <span class="o">=</span> <span class="n">parse_spe_data</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">with_calibration</span><span class="o">=</span><span class="ow">not</span> <span class="n">as_dataset</span><span class="p">)</span>
+<span class="linenos" data-linenos="272 "></span>    <span class="k">if</span> <span class="ow">not</span> <span class="n">as_dataset</span><span class="p">:</span>
+<span class="linenos" data-linenos="273 "></span>        <span class="k">return</span> <span class="n">data_list</span>
+<span class="linenos" data-linenos="274 "></span>    <span class="n">data</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">combine_by_coords</span><span class="p">(</span><span class="n">data_list</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;outer&quot;</span><span class="p">)</span>
+<span class="linenos" data-linenos="275 "></span>    <span class="k">if</span> <span class="n">has_calibration</span><span class="p">:</span>
+<span class="linenos" data-linenos="276 "></span>        <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span> <span class="o">=</span> <span class="n">map_calibration_to_current_coordinate_system</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+<span class="linenos" data-linenos="277 "></span>        <span class="k">try</span><span class="p">:</span>
+<span class="linenos" data-linenos="278 "></span>            <span class="c1"># coerce to numpy array to avoid ambiguity for xarray</span>
+<span class="linenos" data-linenos="279 "></span>            <span class="n">_calibrated_pixels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
+<span class="linenos" data-linenos="280 "></span>            <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">calib_coords</span><span class="p">[</span><span class="n">_calibrated_pixels</span><span class="p">]</span>  <span class="c1"># slice calibration array with current pixels</span>
+<span class="linenos" data-linenos="281 "></span>        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+<span class="linenos" data-linenos="282 "></span>            <span class="c1"># patch for stitched spectra that extend beyond sensor dimension</span>
+<span class="linenos" data-linenos="283 "></span>            <span class="c1"># TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration</span>
+<span class="linenos" data-linenos="284 "></span>            <span class="n">calib_coords</span> <span class="o">=</span> <span class="n">polyval</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">calib_dim_name</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">info</span><span class="o">.</span><span class="n">Calibrations</span><span class="o">.</span><span class="n">WavelengthCalib</span><span class="o">.</span><span class="n">coefficients</span><span class="p">)</span>
+<span class="linenos" data-linenos="285 "></span>        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">(</span><span class="n">wavelength</span><span class="o">=</span><span class="p">(</span><span class="n">calib_dim_name</span><span class="p">,</span> <span class="n">calib_coords</span><span class="p">))</span>
+<span class="linenos" data-linenos="286 "></span>    <span class="n">data</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">info</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+<span class="linenos" data-linenos="287 "></span>    <span class="k">return</span> <span class="n">data</span>
 </code></pre></div>
             </details>
     </div>
