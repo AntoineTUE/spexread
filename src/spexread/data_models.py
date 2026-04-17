@@ -179,13 +179,15 @@ class TrackType(XMLBaseModel):
     bitDepth: Annotated[int, Field(repr=False, multiple_of=8)]
 
     @classmethod
-    def from_xml_by_attrib(cls, node, tag, attrib: tuple[str, str]):
+    def from_xml_by_attrib(cls, node, tag, attrib: tuple[str, str] | None = None):
         """Create a `TrackType` from an XML node, given a tag and attribute."""
-        node = node.getroottree().xpath(f"*/*/{PRE}:{tag}[@{attrib[0]}='{attrib[1]}']", namespaces=cls.ns)
-        # print(node, f"*/*/{PRE}:{tag}[@{attrib[0]}='{attrib[1]}']")
-        if len(node) < 1:
+        expr = f"*/*/{PRE}:{tag}"
+        if attrib is not None:
+            expr += f"[@{attrib[0]}='{attrib[1]}']"
+        node = first_element(node.getroottree().xpath(expr, namespaces=cls.ns))
+        if node is None:
             return None
-        return cls(**node[0].attrib)
+        return cls(**node.attrib)
 
 
 class TimeTrackType(TrackType):
@@ -246,9 +248,9 @@ class MetaBlockType(XMLBaseModel):
         kwargs["exposure_end"] = TimeTrackType.from_xml_by_attrib(node, "TimeStamp", ("event", "ExposureEnded"))
         kwargs["gate_width"] = GateTrackType.from_xml_by_attrib(node, "GateTracking", ("component", "Width"))
         kwargs["gate_delay"] = GateTrackType.from_xml_by_attrib(node, "GateTracking", ("component", "Delay"))
+        kwargs["frame_track"] = TrackType.from_xml_by_attrib(node, "FrameTrackingNumber")
         return MetaBlockType(
             **node.attrib,
-            frame_track=TrackType(**node.xpath(f"./{PRE}:FrameTrackingNumber", namespaces=cls.ns)[0].attrib),
             **{k: v for k, v in kwargs.items() if v is not None},
         )
 
