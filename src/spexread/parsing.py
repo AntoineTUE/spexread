@@ -200,7 +200,6 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
         info (SPEType): A metadata model containing file metadata, backed by `pydantic`
     """
     data_arrays = []
-
     orient_calib = parse_orientation(
         info.Calibrations.WavelengthCalib.orientation if info.Calibrations.WavelengthCalib is not None else "Normal"
     )
@@ -239,7 +238,8 @@ def parse_spe_data(f: Path, info: SPEType, with_calibration=True) -> list[xr.Dat
             name=f"ROI {roi_idx}",
         )
         roi_array = roi_array.assign_coords(**{k: ("frame", v) for k, v in tracking_data.items()})
-        if with_calibration:
+        has_calibration = info.Calibrations.WavelengthCalib is not None
+        if with_calibration and has_calibration:
             try:
                 calib_coords = info.Calibrations.wl[getattr(roi_array, calib_order[0])]
             except IndexError:
@@ -266,20 +266,22 @@ def read_spe_file(file: Path | str, as_dataset=True, strict: bool = False) -> xr
     """
     file = Path(file)
     info = parse_spe_metadata(file, strict=strict)
+    has_calibration = info.Calibrations.WavelengthCalib is not None
 
     data_list = parse_spe_data(file, info, with_calibration=not as_dataset)
     if not as_dataset:
         return data_list
     data = xr.combine_by_coords(data_list, join="outer")
-    calib_dim_name, calib_coords, *_ = map_calibration_to_current_coordinate_system(info)
-    try:
-        # coerce to numpy array to avoid ambiguity for xarray
-        _calibrated_pixels = getattr(data, calib_dim_name, data.x).data
-        calib_coords = calib_coords[_calibrated_pixels]  # slice calibration array with current pixels
-    except IndexError:
-        # patch for stitched spectra that extend beyond sensor dimension
-        # TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration
-        calib_coords = polyval(getattr(data, calib_dim_name).data, info.Calibrations.WavelengthCalib.coefficients)
-    data = data.assign_coords(wavelength=(calib_dim_name, calib_coords))
+    if has_calibration:
+        calib_dim_name, calib_coords, *_ = map_calibration_to_current_coordinate_system(info)
+        try:
+            # coerce to numpy array to avoid ambiguity for xarray
+            _calibrated_pixels = getattr(data, calib_dim_name, data.x).data
+            calib_coords = calib_coords[_calibrated_pixels]  # slice calibration array with current pixels
+        except IndexError:
+            # patch for stitched spectra that extend beyond sensor dimension
+            # TODO: only likely to work for SPE2 files, as SPE3 files store a different calibration
+            calib_coords = polyval(getattr(data, calib_dim_name).data, info.Calibrations.WavelengthCalib.coefficients)
+        data = data.assign_coords(wavelength=(calib_dim_name, calib_coords))
     data.attrs = info.model_dump()
     return data
