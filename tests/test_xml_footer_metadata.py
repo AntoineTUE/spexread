@@ -27,7 +27,7 @@ def test_SPEType_from_v3_footer(footer_lightfield_demo_mode):
     assert roi.stride == metadata.FrameInfo.stride
     calib = metadata.Calibrations
     assert calib.WavelengthCalib.orientation == "Normal"
-    assert calib.WavelengthCalib.date == datetime(1970, 1, 1, 1, 0)
+    assert calib.WavelengthCalib.date == datetime.fromtimestamp(0)
     assert_allclose(calib.WavelengthCalib.wavelength, calib.wl)
     assert_allclose([calib.wl.min(), calib.wl.max()], [431.665887, 568.163526])
     assert_allclose(calib.WavelengthCalib.coefficients, [1.0, 0.0, 0.0, 0.0, 0.0])
