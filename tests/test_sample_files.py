@@ -5,6 +5,11 @@ The sample files are preferably small, but showcase unique features.
 They include files recorded by LightField in SPE3.0 format, but also SPE2.x files created by Andor SOLIS.
 
 Some files contain multiple ROIs, others are the result of a Step & Glue measurement.
+
+Important:
+    When computing a mean, etc. with numpy make sure to cast it to float (e.g. `array.mean(dtype=float)`) for compatibility with Python 3.10.
+    On Python 3.11+ there is different rounding logic that seems to have less loss of precision than on 3.10 (for 32-bit floats, which are `np.float32`, not `float`).
+    Omitting the dtype argument will cause some tests to fail on 3.10
 """
 
 import pytest
@@ -29,9 +34,11 @@ def test_step_and_glue_andor():
     assert len(sample) == 1
     assert tuple(sample.dims) == ("frame", "y", "x")
     assert tuple(sample.coords) == ("frame", "y", "x", "wavelength")
-    assert_allclose([sample["ROI 0"].min(), sample["ROI 0"].mean(), sample["ROI 0"].max()], [0.0, 2324.5513, 2338.5261])
     assert_allclose(
-        [sample.wavelength.min(), sample.wavelength.mean(), sample.wavelength.max()],
+        [sample["ROI 0"].min(), sample["ROI 0"].mean(dtype=float), sample["ROI 0"].max()], [0.0, 2324.5513, 2338.5261]
+    )
+    assert_allclose(
+        [sample.wavelength.min(), sample.wavelength.mean(dtype=float), sample.wavelength.max()],
         [149.851379, 499.851396, 849.85141],
     )
     assert_allclose(
@@ -76,21 +83,22 @@ def test_lightfield_demo():
     assert tuple(sample.data_vars) == ("ROI 0", "ROI 1")
 
     assert_allclose(
-        [sample.exposure_start.min(), sample.exposure_start.mean(), sample.exposure_start.max()],
+        [sample.exposure_start.min(), sample.exposure_start.mean(dtype=float), sample.exposure_start.max()],
         [0.0109296, 0.32802938, 0.6448022],
     )
     assert sample.exposure_start.dims == ("frame",)
     assert_allclose(
-        [sample.exposure_end.min(), sample.exposure_end.mean(), sample.exposure_end.max()],
+        [sample.exposure_end.min(), sample.exposure_end.mean(dtype=float), sample.exposure_end.max()],
         [0.0259296, 0.34302938, 0.6598022],
     )
     assert sample.exposure_end.dims == ("frame",)
     assert_allclose(
-        [sample.gate_delay.min(), sample.gate_delay.mean(), sample.gate_delay.max()], [1000000.0, 3000000.0, 5000000.0]
+        [sample.gate_delay.min(), sample.gate_delay.mean(dtype=float), sample.gate_delay.max()],
+        [1000000.0, 3000000.0, 5000000.0],
     )
     assert sample.gate_delay.dims == ("frame",)
     assert_allclose(
-        [sample.wavelength.min(), sample.wavelength.mean(), sample.wavelength.max()],
+        [sample.wavelength.min(), sample.wavelength.mean(dtype=float), sample.wavelength.max()],
         [431.66588745, 500.01599341, 568.16352595],
     )
     assert sample.wavelength.dims == ("x",)
@@ -107,8 +115,14 @@ def test_lightfield_demo():
     )
     assert sample.FrameInfo["stride"] == sum([roi["stride"] for roi in sample.FrameInfo["ROIs"]]) + tracking_stride
 
-    assert_allclose([sample["ROI 0"].min(), sample["ROI 0"].mean(), sample["ROI 0"].max()], [8265, 9527.662, 12345.0])
-    assert_allclose([sample["ROI 1"].min(), sample["ROI 1"].mean(), sample["ROI 1"].max()], [8265.0, 9547.362, 12345.0])
+    assert_allclose(
+        [sample["ROI 0"].min(), sample["ROI 0"].mean(dtype=float), sample["ROI 0"].max()], [8265, 9527.662, 12345.0]
+    )
+    # Will fail if omitting `dtype=float` for `mean`.
+    assert_allclose(
+        [sample["ROI 1"].min(), sample["ROI 1"].mean(dtype=float), sample["ROI 1"].max()],
+        [8265.0, 9547.363068, 12345.0],
+    )
 
 
 def test_lightfield_full_frame_sequence():
@@ -134,7 +148,7 @@ def test_lightfield_full_frame_sequence():
 
     assert sample.wavelength.dims == ("x",)
     assert_allclose(
-        [sample.wavelength.min(), sample.wavelength.mean(), sample.wavelength.max()],
+        [sample.wavelength.min(), sample.wavelength.mean(dtype=float), sample.wavelength.max()],
         [332.39585367, 336.99866056, 341.57822607],
     )
 
@@ -187,11 +201,11 @@ def test_lightfield_step_and_glue():
     assert calib["wavelength"].size == 5344
     assert_allclose(calib["coefficients"], [1, 0, 0, 0, 0])
     assert_allclose(
-        [sample.wavelength.min(), sample.wavelength.mean(), sample.wavelength.max()],
+        [sample.wavelength.min(), sample.wavelength.mean(dtype=float), sample.wavelength.max()],
         [340.0304015, 516.62033973, 690.05642026],
     )
     assert_allclose(
-        [sample["ROI 0"].data.min(), sample["ROI 0"].data.mean(), sample["ROI 0"].data.max()],
+        [sample["ROI 0"].data.min(), sample["ROI 0"].data.mean(dtype=float), sample["ROI 0"].data.max()],
         [1154, 11867.446856287424, 65535],
     )
 
